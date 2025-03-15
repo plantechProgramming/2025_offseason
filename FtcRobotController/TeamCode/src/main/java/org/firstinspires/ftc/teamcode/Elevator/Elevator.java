@@ -7,10 +7,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.OpMode;
 import org.firstinspires.ftc.teamcode.PID;
 
-public class Elevator2 {
+public class Elevator {
 
     ElapsedTime runtime = new ElapsedTime();
     DcMotorEx El, ER;
@@ -18,7 +17,7 @@ public class Elevator2 {
     CRServo intake_left, intake_right;
     Telemetry telemetry;
 
-    public Elevator2(DcMotorEx EL, DcMotorEx ER, Servo intake_center, CRServo intake_left, CRServo intake_right, Servo intake_AR, Servo intAR, Telemetry telemetry){
+    public Elevator(DcMotorEx EL, DcMotorEx ER, Servo intake_center, CRServo intake_left, CRServo intake_right, Servo intake_AR, Servo intAR, Telemetry telemetry){
         this.El = EL;
         this.ER = ER;
         this.intake_center = intake_center;

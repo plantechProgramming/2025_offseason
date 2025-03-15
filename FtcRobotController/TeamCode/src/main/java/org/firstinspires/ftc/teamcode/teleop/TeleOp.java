@@ -1,12 +1,11 @@
 package org.firstinspires.ftc.teamcode.teleop;
 
 import com.acmerobotics.dashboard.config.Config;
-import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;import static java.lang.Math.abs;
 import org.firstinspires.ftc.teamcode.DriveTrain.DriveTrain;
 
-import org.firstinspires.ftc.teamcode.Elevator.Elevator2;
+import org.firstinspires.ftc.teamcode.Elevator.Elevator;
 import org.firstinspires.ftc.teamcode.OpMode;
 
 @Config
@@ -24,7 +23,7 @@ public class TeleOp extends OpMode {
 
 
         DriveTrain driveTrain = new DriveTrain(DriveBackRight, DriveBackLeft, DriveFrontRight, DriveFrontLeft, telemetry, Imu);
-        Elevator2 lift = new Elevator2(armL, armR, intake_center_angle, intake_left, intake_right, intake_AR, intAR, telemetry);
+        Elevator lift = new Elevator(armL, armR, intake_center_angle, intake_left, intake_right, intake_AR, intAR, telemetry);
 
         boolean is_up = false;
 

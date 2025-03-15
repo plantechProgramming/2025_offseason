@@ -9,9 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.teamcode.DriveTrain.DriveTrainSub;
-import org.firstinspires.ftc.teamcode.Elevator.Elevator2;
-import org.firstinspires.ftc.teamcode.Elevator.Elevator_based;
+import org.firstinspires.ftc.teamcode.Elevator.Elevator;
 import org.firstinspires.ftc.teamcode.command.Move_EL;
 import org.firstinspires.ftc.teamcode.command.drive;
 import org.firstinspires.ftc.teamcode.command.extend;
@@ -36,7 +34,7 @@ public class teleopBase extends OPMODE_BASE {
 
         boolean is_in = false;
         boolean is_down = false;
-        Elevator2 lift = new Elevator2(armL, armR, intake_center_angle, intake_left, intake_right, intake_AR, intAR, telemetry);
+        Elevator lift = new Elevator(armL, armR, intake_center_angle, intake_left, intake_right, intake_AR, intAR, telemetry);
         Elevator_based lift_Base = new Elevator_based(armL, armR, intake_center_angle, intake_left, intake_right, intake_AR, intAR, telemetry);
 
         extend ex_in = new extend(lift_Base,1, 1);
