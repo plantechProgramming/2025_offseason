@@ -92,8 +92,6 @@ public abstract class OpMode extends LinearOpMode {
         Imu.initialize(parameters);
         Imu.resetYaw();
 
-
-
     }
     //why the fuck is this global
     public double error_deg;
