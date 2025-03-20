@@ -164,7 +164,8 @@ public abstract class OpMode extends LinearOpMode {
             }
         }
         turn(driveTrain, delta);
-        driveTrain.drive(distance, 0, 0, 0);
+        driveTrain.stop();
+  driveDistance(driveTrain, 0, 0);
         telemetry.addData("delta",delta);
         driveTrain.stop();
     }
@@ -207,6 +208,41 @@ public abstract class OpMode extends LinearOpMode {
             sleep(3000);
             turn(driveTrain, -vals[i]);
         }
+    }
+    public void driveDistance(DriveTrain driveTrain, double posX, double posY){
+
+        double dir_x =posX/Math.abs(posX);
+        double dir_y =posY/Math.abs(posY);
+        double dir = Math.abs(dir_x) / Math.abs(dir_y);
+
+        // 37.3 - tick to deg ratio
+        double count = 0;
+        double thresh = 20;
+        double error = 0;
+        double power = 0.5 * dir;
+        if(posX != 0 && posY == 0) {
+            while (Math.abs(power) > 0.008){
+                if (Math.abs(error) < thresh){
+                    count++;
+                }
+                error = (Math.abs(posX)+Math.abs(posY)) - DriveBackLeft.getCurrentPosition();
+
+                driveTrain.drive(0, 0, power, 0);
+
+            }
+            driveTrain.stop();
+            telemetry.addData("deg:",DriveBackLeft.getCurrentPosition()/37.3);
+
+        }
+
+
+        else if (posX == 0 && posY != 0) {
+
+        }
+        else {
+            driveTrain.stop();
+        }
+
     }
 
 

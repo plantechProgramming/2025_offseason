@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -139,5 +140,56 @@ public class DriveTrain {
             FR.setPower(0);
             BR.setPower(0);
             BL.setPower(0);
+        }
+        public void GPT_Drive(double x, double y,double botHeading){
+            double rotX = x * Math.cos(-botHeading) - y * Math.sin(-botHeading);
+            double rotY = x * Math.sin(-botHeading) + y * Math.cos(-botHeading);
+
+            rotX *= 1.1;
+            double wheelRadius = 48.0; // mm
+            double maxRPM = 312; // RPM of the GoBilda Yellow Jacket Motors
+            double maxLinearSpeed = 1575.98; // mm/s
+
+// Robot Movement Parameters
+            double distance = Math.sqrt((Math.pow(rotX,2))+Math.pow(rotY,2)); // mm (example distance)
+
+// Convert angle to radians
+            double theta = Math.abs(Math.asin(rotY/distance)); // radians (example angle)
+
+// Decompose the distance into x and y components
+            double v_x = distance * Math.cos(theta);  // Forward/Backward component
+            double v_y = distance * Math.sin(theta);  // Strafe component
+
+// Calculate wheel speeds (in mm/s)
+            double v_FL = v_y + v_x;
+            double v_FR = v_y - v_x;
+            double v_BL = v_y - v_x;
+            double v_BR = v_y + v_x;
+
+// Convert wheel speeds to motor RPMs
+            double rpm_FL = (Math.abs(v_FL) / maxLinearSpeed) * maxRPM;
+            double rpm_FR = (Math.abs(v_FR) / maxLinearSpeed) * maxRPM;
+            double rpm_BL = (Math.abs(v_BL) / maxLinearSpeed) * maxRPM;
+            double rpm_BR = (Math.abs(v_BR) / maxLinearSpeed) * maxRPM;
+
+// Normalize the motor power to be between -1 and 1
+            double motorPower_FL = v_FL / maxLinearSpeed;
+            double motorPower_FR = v_FR / maxLinearSpeed;
+            double motorPower_RL = v_BL / maxLinearSpeed;
+            double motorPower_RR = v_BR / maxLinearSpeed;
+
+// Cap motor power to the range [-1, 1]
+            motorPower_FL = Range.clip(motorPower_FL, -1.0, 1.0);
+            motorPower_FR = Range.clip(motorPower_FR, -1.0, 1.0);
+            motorPower_RL = Range.clip(motorPower_RL, -1.0, 1.0);
+            motorPower_RR = Range.clip(motorPower_RR, -1.0, 1.0);
+
+// Output motor powers to the robot motors
+            FL.setPower(motorPower_FL);
+            FR.setPower(motorPower_FR);
+            BL.setPower(motorPower_RL);
+            BR.setPower(motorPower_RR);
+
+
         }
 }
