@@ -70,13 +70,13 @@ public final class TankDrive {
                 RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
 
         // drive model parameters
-        public double inPerTick = 0;
-        public double trackWidthTicks = 0;
+        public double inPerTick = 0.0029;
+        public double trackWidthTicks = 4135.118043368392;
 
         // feedforward parameters (in tick units)
-        public double kS = 0;
-        public double kV = 0;
-        public double kA = 0;
+        public double kS = 0.5113486049017502;
+        public double kV = 0.0006092016171193701;
+        public double kA = 0.0001;
 
         // path profile parameters (in inches)
         public double maxWheelVel = 50;
@@ -273,7 +273,7 @@ public final class TankDrive {
             m.setPower(wheelVels.left.get(0) / maxPowerMag);
         }
         for (DcMotorEx m : rightMotors) {
-            m.setPower(wheelVels.right.get(0) / maxPowerMag);
+            m.setPower(wheelVels.right.get(0) / maxPowerMag );
         }
     }
 

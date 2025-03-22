@@ -34,6 +34,7 @@ import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
@@ -62,14 +63,14 @@ public final class MecanumDrive {
                 RevHubOrientationOnRobot.UsbFacingDirection.UP;
 
         // drive model parameters
-        public double inPerTick = 1;
-        public double lateralInPerTick = inPerTick;
-        public double trackWidthTicks = 0;
+        public double inPerTick = 0.0029296757644368745;
+        public double lateralInPerTick = 0.0029560054871166854;
+        public double trackWidthTicks = 4135.118043368392;
 
         // feedforward parameters (in tick units)
-        public double kS = 0;
-        public double kV = 0;
-        public double kA = 0;
+        public double kS = 0.5113486049017502   ;
+        public double kV = 0.0006092016171193701;
+        public double kA = 0.0001;
 
         // path profile parameters (in inches)
         public double maxWheelVel = 50;
@@ -81,9 +82,9 @@ public final class MecanumDrive {
         public double maxAngAccel = Math.PI;
 
         // path controller gains
-        public double axialGain = 0.0;
-        public double lateralGain = 0.0;
-        public double headingGain = 0.0; // shared with turn
+        public double axialGain = 1;
+        public double lateralGain = 1.75;
+        public double headingGain = 1.75; // shared with turn
 
         public double axialVelGain = 0.0;
         public double lateralVelGain = 0.0;
@@ -134,10 +135,10 @@ public final class MecanumDrive {
         private Pose2d pose;
 
         public DriveLocalizer(Pose2d pose) {
-            FR = new OverflowEncoder(new RawEncoder(MecanumDrive.this.DriveFrontLeft));
+            FR = new OverflowEncoder(new RawEncoder(MecanumDrive.this.DriveFrontRight));
             BL = new OverflowEncoder(new RawEncoder(MecanumDrive.this.DriveBackLeft));
             BR = new OverflowEncoder(new RawEncoder(MecanumDrive.this.DriveBackRight));
-            FL = new OverflowEncoder(new RawEncoder(MecanumDrive.this.DriveFrontRight));
+            FL = new OverflowEncoder(new RawEncoder(MecanumDrive.this.DriveFrontLeft));
 
             imu = lazyImu.get();
 
@@ -229,7 +230,7 @@ public final class MecanumDrive {
 
         // TODO: make sure your config has motors with these names (or change them)
         //   see https://ftc-docs.firstinspires.org/en/latest/hardware_and_software_configuration/configuring/index.html
-        DriveFrontLeft = hardwareMap.get(DcMotorEx.class, "FR");
+        DriveFrontLeft = hardwareMap.get(DcMotorEx.class, "FL");
         DriveBackLeft = hardwareMap.get(DcMotorEx.class, "BL");
         DriveBackRight = hardwareMap.get(DcMotorEx.class, "BR");
         DriveFrontRight = hardwareMap.get(DcMotorEx.class, "FR");
@@ -241,6 +242,10 @@ public final class MecanumDrive {
 
         // TODO: reverse motor directions if needed
         //   leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        DriveFrontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        DriveBackLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        DriveBackRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        DriveFrontRight.setDirection(DcMotorSimple.Direction.FORWARD);
 
         // TODO: make sure your config has an IMU with this name (can be BNO or BHI)
         //   see https://ftc-docs.firstinspires.org/en/latest/hardware_and_software_configuration/configuring/index.html
@@ -265,6 +270,7 @@ public final class MecanumDrive {
 
         DriveFrontLeft.setPower(wheelVels.leftFront.get(0) / maxPowerMag);
         DriveBackLeft.setPower(wheelVels.leftBack.get(0) / maxPowerMag);
+
         DriveBackRight.setPower(wheelVels.rightBack.get(0) / maxPowerMag);
         DriveFrontRight.setPower(wheelVels.rightFront.get(0) / maxPowerMag);
     }
