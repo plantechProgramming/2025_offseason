@@ -142,6 +142,12 @@ public class DriveTrain {
             BL.setPower(0);
         }
         public void GPT_Drive(double x, double y,double botHeading){
+
+            FL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            FR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            BR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            BL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
             double rotX = x * Math.cos(-botHeading) - y * Math.sin(-botHeading);
             double rotY = x * Math.sin(-botHeading) + y * Math.cos(-botHeading);
 
@@ -157,20 +163,20 @@ public class DriveTrain {
             double theta = Math.abs(Math.asin(rotY/distance)); // radians (example angle)
 
 // Decompose the distance into x and y components
-            double v_x = distance * Math.cos(theta);  // Forward/Backward component
-            double v_y = distance * Math.sin(theta);  // Strafe component
+//            double v_x = distance * Math.cos(theta);  // Forward/Backward component
+//            double v_y = distance * Math.sin(theta);  // Strafe component
 
 // Calculate wheel speeds (in mm/s)
-            double v_FL = v_y + v_x;
-            double v_FR = v_y - v_x;
-            double v_BL = v_y - v_x;
-            double v_BR = v_y + v_x;
+            double v_FL = rotY - rotX;
+            double v_FR = rotY - rotX;
+            double v_BL = rotY + rotX;
+            double v_BR = rotY + rotX;
 
 // Convert wheel speeds to motor RPMs
-            double rpm_FL = (Math.abs(v_FL) / maxLinearSpeed) * maxRPM;
-            double rpm_FR = (Math.abs(v_FR) / maxLinearSpeed) * maxRPM;
-            double rpm_BL = (Math.abs(v_BL) / maxLinearSpeed) * maxRPM;
-            double rpm_BR = (Math.abs(v_BR) / maxLinearSpeed) * maxRPM;
+//            double rpm_FL = (Math.abs(v_FL) / maxLinearSpeed) * maxRPM;
+//            double rpm_FR = (Math.abs(v_FR) / maxLinearSpeed) * maxRPM;
+//            double rpm_BL = (Math.abs(v_BL) / maxLinearSpeed) * maxRPM;
+//            double rpm_BR = (Math.abs(v_BR) / maxLinearSpeed) * maxRPM;
 
 // Normalize the motor power to be between -1 and 1
             double motorPower_FL = v_FL / maxLinearSpeed;
@@ -189,6 +195,11 @@ public class DriveTrain {
             FR.setPower(motorPower_FR);
             BL.setPower(motorPower_RL);
             BR.setPower(motorPower_RR);
+            telemetry.addData("FL_Power:", motorPower_FL);
+            telemetry.addData("BL_Power:", motorPower_RL);
+            telemetry.addData("BR_Power:", motorPower_RR);
+            telemetry.addData("FR_Power:", motorPower_FR);
+            telemetry.update();
 
 
         }
