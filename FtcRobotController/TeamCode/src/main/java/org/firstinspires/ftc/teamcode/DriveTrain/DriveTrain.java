@@ -71,8 +71,8 @@ public class DriveTrain {
         double frontLeftPower = (rotY - rotX + rx) / denominator;
         double backLeftPower = (rotY + rotX + rx) / denominator;
 
-        double frontRightPower = (rotY - rotX - rx) / denominator;
-        double backRightPower = (rotY + rotX - rx) / denominator;
+        double frontRightPower = (rotY + rotX - rx) / denominator;// before - rotX
+        double backRightPower = (rotY - rotX - rx) / denominator;// before + rotX
 
         FL.setPower(frontLeftPower);
         BL.setPower(backLeftPower);

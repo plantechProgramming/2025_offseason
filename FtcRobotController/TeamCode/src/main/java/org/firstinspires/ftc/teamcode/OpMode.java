@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -51,39 +52,13 @@ public abstract class OpMode extends LinearOpMode {
         DriveBackLeft.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 
         DriveBackRight = hardwareMap.get(DcMotorEx.class, "BR");
-        DriveBackRight.setDirection(DcMotorEx.Direction.REVERSE);
+        DriveBackRight.setDirection(DcMotorEx.Direction.FORWARD);
         DriveBackRight.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         DriveBackRight.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         DriveBackRight.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 
-        armR = hardwareMap.get(DcMotorEx.class,"ER");
-        armR.setDirection(DcMotorEx.Direction.FORWARD );
-        armR.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-        armR.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        armR.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
-
-
-        armL = hardwareMap.get(DcMotorEx.class,"EL");
-        armL.setDirection(DcMotorEx.Direction.FORWARD);
-        armL.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-        armL.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        armL.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
-
-
-        intake_right = hardwareMap.get(CRServo.class, "axonR");
-        intake_left = hardwareMap.get(CRServo.class, "axonL");
-
-        intake_AR = hardwareMap.get(Servo.class, "ointR");
-        intake_AR.setPosition(0.65);
-
-        roni_IA = hardwareMap.get(Servo.class, "roni");
-        roni_IA.setPosition(0.2);
 
         roni2_intake = hardwareMap.get(Servo.class, "roni2");
-
-        intAR =  hardwareMap.get(Servo.class, "intAR");
-
-        intake_center_angle = hardwareMap.get(Servo.class, "intakeWheel");
 
         Imu = hardwareMap.get(IMU.class, "imu");
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(

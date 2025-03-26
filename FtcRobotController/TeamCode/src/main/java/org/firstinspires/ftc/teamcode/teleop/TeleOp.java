@@ -14,7 +14,7 @@ public class TeleOp extends OpMode {
 
     @Override
     protected void postInit() {
-        Imu.resetYaw();  intake_AR.setPosition(0.55);
+        Imu.resetYaw();
     }
 
 
@@ -49,8 +49,8 @@ public class TeleOp extends OpMode {
                 driveTrain.drive(forward, drift, turn, botHeading);
             }
 
-            if (gamepad1.a){roni2_intake.setPosition(0.4); }
-            else if (gamepad1.b) {roni2_intake.setPosition(0.6);}
+            if (gamepad1.a){roni2_intake.setPosition(1); }
+            else if (gamepad1.b) {roni2_intake.setPosition(0);}
 
             if (gamepad1.y){lift.extend(-1, 1);sleep(100); lift.move_intake_AG(0.6); sleep(100); intake_center_angle.setPosition(1);}
             if (gamepad1.x){lift.extend(-1, 1);sleep(100);  lift.move_intake_AG(0.65); sleep(100); intake_center_angle.setPosition(0.55); }
@@ -58,7 +58,7 @@ public class TeleOp extends OpMode {
             if(gamepad1.dpad_up && !is_up){lift.move_intake_AG(0.2);is_up = true;}
             else if (gamepad1.dpad_down && is_up) {lift.move_intake_AG(0.65); is_up = false;}
 
-            if(gamepad1.dpad_left){intake_AR.setPosition(0.3);}
+            if(gamepad1.dpad_left){intake_AR.setPosition(0.7);}
 
 
             if(gamepad1.right_bumper ){

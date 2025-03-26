@@ -68,8 +68,8 @@ public final class MecanumDrive {
         public double trackWidthTicks = 4135.118043368392;
 
         // feedforward parameters (in tick units)
-        public double kS = 0.5113486049017502   ;
-        public double kV = 0.0006092016171193701;
+        public double kS = 0.47755003555179765;
+        public double kV = 0.000611188311805337;
         public double kA = 0.0001;
 
         // path profile parameters (in inches)
@@ -244,7 +244,7 @@ public final class MecanumDrive {
         //   leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
         DriveFrontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         DriveBackLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        DriveBackRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        DriveBackRight.setDirection(DcMotorSimple.Direction.FORWARD);
         DriveFrontRight.setDirection(DcMotorSimple.Direction.FORWARD);
 
         // TODO: make sure your config has an IMU with this name (can be BNO or BHI)
