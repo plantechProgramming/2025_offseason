@@ -29,7 +29,7 @@ public class roadrunnerAuto extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         double inPerTile = 24.25;
         double pie = Math.PI;
-        Pose2d beginPose = new Pose2d(0, 0, 90);
+        Pose2d beginPose = new Pose2d(0, 0, 0);
         MecanumDrive drive = new MecanumDrive(hardwareMap, beginPose);
         VelConstraint velConstraint = new VelConstraint() {
             @Override
@@ -51,10 +51,9 @@ public class roadrunnerAuto extends LinearOpMode {
         Actions.runBlocking(
 
                 drive.actionBuilder(beginPose)
-                        //.strafeToLinearHeading(new Vector2d(inPerTile*0.075, -4*inPerTile/2),Math.toRadians(-30))
-//                        .lineToYLinearHeading(-2*inPerTile,-
-                        .strafeTo(new Vector2d(-inPerTile, -inPerTile))
-//                        .turn(Math.toRadians(90))
+                        .strafeToLinearHeading(new Vector2d(inPerTile, inPerTile),Math.toRadians(90))
+//                        .strafeTo(new Vector2d(-inPerTile, -inPerTile))
+////                        .turn(Math.toRadians(90))
                         .build());
 
     }
