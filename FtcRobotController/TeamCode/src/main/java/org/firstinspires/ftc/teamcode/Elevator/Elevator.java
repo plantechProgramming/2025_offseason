@@ -73,31 +73,30 @@ public class Elevator extends LinearOpMode{
 
         EA.setPower(0);
     }
-    public void Change_Height(int x){
+    public void Change_Height(double x){
         int count = 0;
-
-        EH.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        EH.setDirection(DcMotorSimple.Direction.REVERSE);
         EH.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //        EH.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        PID pid = new PID(0.15, 0.05, 0.05, 0, 0);
+        PID pid = new PID(0.15, 0.05, 0.5, 0, 0);
 
         double thresh = 100;
         pid.setWanted(x);
         double power = 1;
-        while (count < 1 && Math.abs(power) > 0.008){
+        while (count < 3){
             if (Math.abs(Math.abs(x)-Math.abs(EH.getCurrentPosition())) < thresh){
                 count++;
             }
             power = pid.update(EH.getCurrentPosition());
 
 
-            EH.setPower(-power);
+            EH.setPower(power);
             telemetry.addData("EH",EH.getCurrentPosition());
             telemetry.update();
 
         }
-        EH.setPower(0.5);
-        sleep(100);
+        EH.setPower(0);
+//        EH.setPower(0);
         EH.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
     }
 
