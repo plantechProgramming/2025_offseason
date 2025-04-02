@@ -23,7 +23,7 @@ public class TeleOp extends OpMode {
 
 
         DriveTrain driveTrain = new DriveTrain(DriveBackRight, DriveBackLeft, DriveFrontRight, DriveFrontLeft, telemetry, Imu);
-        Elevator lift = new Elevator(armL, armR, intake_center_angle, intake_left, intake_right, intake_AR, intAR, telemetry);
+        Elevator lift = new Elevator(EA, EH, intake_center_angle, intake_left, intake_right, intake_AR, intAR, telemetry);
 
         boolean is_up = false;
 
@@ -42,12 +42,13 @@ public class TeleOp extends OpMode {
             drift = gamepad1.left_stick_x;
             botHeading = Imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
 
-//
-//            if(gamepad1.right_trigger > 0.0){
-//                driveTrain.drive(forward * 0.3, drift * 0.4, turn, botHeading);
-//            }else{
-//                driveTrain.drive(forward, drift, turn, botHeading);
-//            }
+            if(gamepad1.right_trigger > 0.0){
+                driveTrain.drive(forward * 0.3, drift * 0.4, turn, botHeading);
+            }else{
+                driveTrain.drive(forward, drift, turn, botHeading);
+            }
+//            while (gamepad1.right_trigger>0){lift.Change_Height(1);}
+//            while (gamepad1.left_trigger>0) {lift.Change_Height(-1);}
 
             if (gamepad1.a){roni2_intake.setPosition(1); }
             else if (gamepad1.b) {roni2_intake.setPosition(0.75);}
@@ -55,10 +56,13 @@ public class TeleOp extends OpMode {
 //            if (gamepad1.y){lift.extend(-1, 1);sleep(100); lift.move_intake_AG(0.6); sleep(100); intake_center_angle.setPosition(1);}
 //            if (gamepad1.x){lift.extend(-1, 1);sleep(100);  lift.move_intake_AG(0.65); sleep(100); intake_center_angle.setPosition(0.55); }
 //
-//            if(gamepad1.dpad_up && !is_up){lift.move_intake_AG(0.2);is_up = true;}
-//            else if (gamepad1.dpad_down && is_up) {lift.move_intake_AG(0.65); is_up = false;}
+//            if (gamepad1.dpad_up){lift.Change_Height(300);}
+            telemetry.addData("EH",EH.getCurrentPosition());
+            if (gamepad1.dpad_down) {lift.Change_Height(-1);}
 //
-//            if(gamepad1.dpad_left){intake_AR.setPosition(0.7);}
+            if (gamepad1.dpad_left){lift.Change_Angle(-1);}
+            if (gamepad1.dpad_right){lift.Change_Angle(1);}
+
 //
 //
 //            if(gamepad1.right_bumper ){

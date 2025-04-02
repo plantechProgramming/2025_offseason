@@ -25,7 +25,7 @@ public abstract class OpMode extends LinearOpMode {
 
     protected Servo intake_AR, intAR, roni_IA, intake_center_angle, roni2_intake;
     protected CRServo intake_right, intake_left;
-    protected DcMotorEx DriveFrontLeft, DriveFrontRight, DriveBackLeft, DriveBackRight, armR, armL;
+    protected DcMotorEx DriveFrontLeft, DriveFrontRight, DriveBackLeft, DriveBackRight, EH, EA;
     protected ElapsedTime runtime = new ElapsedTime();
 
     protected IMU Imu;
@@ -56,6 +56,18 @@ public abstract class OpMode extends LinearOpMode {
         DriveBackRight.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         DriveBackRight.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         DriveBackRight.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+
+        EA = hardwareMap.get(DcMotorEx.class, "EA");
+        EA.setDirection(DcMotorEx.Direction.FORWARD);
+        EA.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        EA.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        EA.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+
+        EH = hardwareMap.get(DcMotorEx.class, "EH");
+        EH.setDirection(DcMotorEx.Direction.FORWARD);
+        EH.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        EH.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        EH.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 
 
         roni2_intake = hardwareMap.get(Servo.class, "roni2");
@@ -96,17 +108,7 @@ public abstract class OpMode extends LinearOpMode {
 
 
 
-    public void Move_all(){
-        Elevator lift = new Elevator(armL, armR, intake_center_angle, intake_left, intake_right, intake_AR, intAR, telemetry);;
 
-        lift.Move_Elevator(8000);
-        intake_AR.setPosition(0);
-        sleep(1000);
-
-        intake_AR.setPosition(0.7);
-        sleep(1000);
-        lift.Move_Elevator(-8000);
-    }
 
     public void diagonal(DriveTrain driveTrain,double pos_x,double pos_y){
 
@@ -221,56 +223,56 @@ public abstract class OpMode extends LinearOpMode {
     }
 
 
-   public  void Take_SampleP1(Elevator lift) {
-       lift.extend(-1, 1);
-       lift.move_intake_AG(0.65);
-       sleep(500);
-
-       intake_center_angle.setPosition(0.6);
-       sleep(100);
-       roni2_intake.setPosition(1);
-       sleep(200);
-   }
-    public  void Take_SampleP2(Elevator lift){
-
-       roni2_intake.setPosition(0.3);
-       sleep(100);
-
-   }
-    public void Transfer_sample(Elevator lift){
-        intake_AR.setPosition(.8);
-        lift.extend(0.2,1);
-        intake_center_angle.setPosition(0.2);
-        sleep(500);
-
-        lift.move_intake_AG(0.15);
-        sleep(1000);
-        roni2_intake.setPosition(1);
-        sleep(500);
-        lift.extend(-0.56,1);
-        sleep(100);
-    }
-    public void Specimen_Drop(Elevator lift, DriveTrain driveTrain){
-        lift.Move_Elevator(1400);
-        sleep(100);
-      //  drive_abs_point(driveTrain,0.3,1.3);
-        sleep(100);
-        lift.Move_Elevator(-400);
-        sleep(100);
-        lift.Move_Elevator(-1000);
-        sleep(100);
-
-    }
-    public void Sample_to_Basket(Elevator lift){
-        lift.Move_Elevator(8000);
-        intake_AR.setPosition(0);
-        sleep(500);
-
-        intake_AR.setPosition(0.55);
-        sleep(500);
-        lift.Move_Elevator(-8000);
-        sleep(1000);
-    }
+//   public  void Take_SampleP1(Elevator lift) {
+//       lift.extend(-1, 1);
+//       lift.move_intake_AG(0.65);
+//       sleep(500);
+//
+//       intake_center_angle.setPosition(0.6);
+//       sleep(100);
+//       roni2_intake.setPosition(1);
+//       sleep(200);
+//   }
+//    public  void Take_SampleP2(Elevator lift){
+//
+//       roni2_intake.setPosition(0.3);
+//       sleep(100);
+//
+//   }
+//    public void Transfer_sample(Elevator lift){
+//        intake_AR.setPosition(.8);
+//        lift.extend(0.2,1);
+//        intake_center_angle.setPosition(0.2);
+//        sleep(500);
+//
+//        lift.move_intake_AG(0.15);
+//        sleep(1000);
+//        roni2_intake.setPosition(1);
+//        sleep(500);
+//        lift.extend(-0.56,1);
+//        sleep(100);
+//    }
+//    public void Specimen_Drop(Elevator lift, DriveTrain driveTrain){
+//        lift.Change_Height(1400);
+//        sleep(100);
+//      //  drive_abs_point(driveTrain,0.3,1.3);
+//        sleep(100);
+//        lift.Change_Height(-400);
+//        sleep(100);
+//        lift.Change_Height(-1000);
+//        sleep(100);
+//
+//    }
+//    public void Sample_to_Basket(Elevator lift){
+//        lift.Change_Height(8000);
+//        intake_AR.setPosition(0);
+//        sleep(500);
+//
+//        intake_AR.setPosition(0.55);
+//        sleep(500);
+//        lift.Change_Height(-8000);
+//        sleep(1000);
+//    }
 
 }
 

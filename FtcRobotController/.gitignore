@@ -17,8 +17,8 @@
 bin/
 gen/
 out/
-#  Uncomment the following line in case you need and you don't have the release build type files in your app
-# release/
+#  Uncomment the following line in case you need and you don't have the relEHse build type files in your app
+# relEHse/
 
 # Gradle files
 .gradle/

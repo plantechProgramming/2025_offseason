@@ -28,6 +28,7 @@ public class roadrunnerAuto extends LinearOpMode{
     // don't
     @Override
     public void runOpMode() throws InterruptedException {
+        // TODO: find if same as normal competition tiles
         double inPerTile = 24.3125;
 
 
@@ -42,7 +43,7 @@ public class roadrunnerAuto extends LinearOpMode{
                 return 0;
             }
             VelConstraint baseVelConstraint = (robotPose, _path, _disp) -> {
-                if (Math.abs(robotPose.position.x.value()) > 5.8*inPerTileX || Math.abs(robotPose.position.y.value()) > 5.8*inPerTileY) {
+                if (Math.abs(robotPose.position.x.value()) > 5.8*inPerTileY || Math.abs(robotPose.position.y.value()) > 5.8*inPerTileX) {
                     return 10.0;
                 }
                 return 60;
@@ -56,7 +57,8 @@ public class roadrunnerAuto extends LinearOpMode{
         Actions.runBlocking(
 
                 drive.actionBuilder(beginPose)
-                        .strafeTo(new Vector2d(24, 24*1.42))
+                        //.strafeTo(new Vector2d(0.5*inPerTileX, -2*inPerTileY))
+                        .strafeToLinearHeading(new Vector2d(inPerTileX, inPerTileY), Math.toRadians(90))
                         .build());
 
     }

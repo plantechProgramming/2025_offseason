@@ -12,14 +12,14 @@ import org.firstinspires.ftc.teamcode.PID;
 public class Elevator {
 
     ElapsedTime runtime = new ElapsedTime();
-    DcMotorEx El, ER;
+    DcMotorEx EH, EA;
     Servo intake_center, intake_AR, intAR;
     CRServo intake_left, intake_right;
     Telemetry telemetry;
 
-    public Elevator(DcMotorEx EL, DcMotorEx ER, Servo intake_center, CRServo intake_left, CRServo intake_right, Servo intake_AR, Servo intAR, Telemetry telemetry){
-        this.El = EL;
-        this.ER = ER;
+    public Elevator(DcMotorEx EA, DcMotorEx EH, Servo intake_center, CRServo intake_left, CRServo intake_right, Servo intake_AR, Servo intAR, Telemetry telemetry){
+        this.EH = EH;
+        this.EA = EA;
         this.intake_center = intake_center;
         this.intake_left = intake_left;
         this.intake_right = intake_right;
@@ -29,32 +29,43 @@ public class Elevator {
     }
 
 
-    public void Move_Elevator(double x){
+    public void Change_Angle(double x){
 
-        ER.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        El.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        EA.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         PID pid = new PID(0.5, 0.2, 0.1, 0, 0);
 
-        ER.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        El.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        EA.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         pid.setWanted(x);
 
-        while(Math.abs(x) + 320 > Math.abs(El.getCurrentPosition()) && Math.abs(El.getCurrentPosition()) < Math.abs(x) - 320){
-            ER.setPower(pid.update(El.getCurrentPosition()));
-            El.setPower(-pid.update(El.getCurrentPosition()));
-            telemetry.addLine("in");
-            telemetry.addData("pos: ", El.getCurrentPosition());
-            telemetry.addData("x: ", x);
-            telemetry.update();
+        while(Math.abs(x) + 320 > Math.abs(EA.getCurrentPosition()) && Math.abs(EA.getCurrentPosition()) < Math.abs(x) - 320){
+            EA.setPower(-pid.update(EA.getCurrentPosition()));
+
         }
 
-        ER.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-        El.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        EA.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
 
-        ER.setPower(0);
-        El.setPower(0);
+        EA.setPower(0);
+    }
+    public void Change_Height(double x){
+
+        EH.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        PID pid = new PID(0.5, 0.2, 0.1, 0, 0);
+
+        EH.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        pid.setWanted(x);
+
+        while(Math.abs(x) + 100 > Math.abs(EH.getCurrentPosition()) && Math.abs(EH.getCurrentPosition()) < Math.abs(x) - 100){
+            EH.setPower(-pid.update(EH.getCurrentPosition()));
+
+        }
+
+        EH.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+
+        EH.setPower(0);
     }
 
 
