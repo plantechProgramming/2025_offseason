@@ -27,7 +27,6 @@ public class TeleOp extends OpMode {
 
         boolean is_up = false;
 
-
         double forward; //-1 to 1
         double turn;
         double drift;
@@ -53,12 +52,11 @@ public class TeleOp extends OpMode {
             if (gamepad1.a){roni2_intake.setPosition(1); }
             else if (gamepad1.b) {roni2_intake.setPosition(0.75);}
 
-//            if (gamepad1.y){lift.extend(-1, 1);sleep(100); lift.move_intake_AG(0.6); sleep(100); intake_center_angle.setPosition(1);}
-//            if (gamepad1.x){lift.extend(-1, 1);sleep(100);  lift.move_intake_AG(0.65); sleep(100); intake_center_angle.setPosition(0.55); }
+            if (gamepad1.y){intake_center_angle.setPosition(1);}
+            if (gamepad1.x){intake_center_angle.setPosition(0.57); }
 //
-//            if (gamepad1.dpad_up){lift.Change_Height(300);}
-            telemetry.addData("EH",EH.getCurrentPosition());
-            if (gamepad1.dpad_down) {lift.Change_Height(-1);}
+            if (gamepad1.dpad_up){lift.Change_Height(3000);}
+            if (gamepad1.dpad_down) {lift.Change_Height(-3000);}
 //
             if (gamepad1.dpad_left){lift.Change_Angle(-1);}
             if (gamepad1.dpad_right){lift.Change_Angle(1);}

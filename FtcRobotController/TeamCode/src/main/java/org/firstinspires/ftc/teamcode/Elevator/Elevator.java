@@ -1,16 +1,19 @@
 package org.firstinspires.ftc.teamcode.Elevator;
 
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.PID;
 
-public class Elevator {
+public class Elevator extends LinearOpMode{
 
+    //Thread thread = Thread.currentThread();
     ElapsedTime runtime = new ElapsedTime();
     DcMotorEx EH, EA;
     Servo intake_center, intake_AR, intAR;
@@ -27,7 +30,29 @@ public class Elevator {
         this.intAR = intAR;
         this.telemetry = telemetry;
     }
+    public void Move_Elevator(double x){
 
+        EH.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        EH.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        PID pid = new PID(0.5, 0.2, 0.1, 0, 0);
+
+        EH.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        pid.setWanted(x);
+
+        while(Math.abs(x) + 320 > Math.abs(EH.getCurrentPosition()) && Math.abs(EH.getCurrentPosition()) < Math.abs(x) - 320){
+            EH.setPower(pid.update(EH.getCurrentPosition()));
+            telemetry.addLine("in");
+            telemetry.addData("pos: ", EH.getCurrentPosition());
+            telemetry.addData("x: ", x);
+            telemetry.update();
+        }
+
+        EH.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+
+        EH.setPower(0);
+    }
 
     public void Change_Angle(double x){
 
@@ -48,24 +73,32 @@ public class Elevator {
 
         EA.setPower(0);
     }
-    public void Change_Height(double x){
+    public void Change_Height(int x){
+        int count = 0;
 
         EH.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        EH.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        EH.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        PID pid = new PID(0.15, 0.05, 0.05, 0, 0);
 
-        PID pid = new PID(0.5, 0.2, 0.1, 0, 0);
-
-        EH.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
+        double thresh = 100;
         pid.setWanted(x);
+        double power = 1;
+        while (count < 1 && Math.abs(power) > 0.008){
+            if (Math.abs(Math.abs(x)-Math.abs(EH.getCurrentPosition())) < thresh){
+                count++;
+            }
+            power = pid.update(EH.getCurrentPosition());
 
-        while(Math.abs(x) + 100 > Math.abs(EH.getCurrentPosition()) && Math.abs(EH.getCurrentPosition()) < Math.abs(x) - 100){
-            EH.setPower(-pid.update(EH.getCurrentPosition()));
+
+            EH.setPower(-power);
+            telemetry.addData("EH",EH.getCurrentPosition());
+            telemetry.update();
 
         }
-
+        EH.setPower(0.5);
+        sleep(100);
         EH.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-
-        EH.setPower(0);
     }
 
 
@@ -86,4 +119,8 @@ public class Elevator {
     }
 
 
+    @Override
+    public void runOpMode() throws InterruptedException {
+
+    }
 }

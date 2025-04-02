@@ -70,7 +70,8 @@ public abstract class OpMode extends LinearOpMode {
         EH.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 
 
-        roni2_intake = hardwareMap.get(Servo.class, "roni2");
+        roni2_intake = hardwareMap.get(Servo.class, "intake");
+        intake_center_angle = hardwareMap.get(Servo.class,"intA");
 
         Imu = hardwareMap.get(IMU.class, "imu");
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
