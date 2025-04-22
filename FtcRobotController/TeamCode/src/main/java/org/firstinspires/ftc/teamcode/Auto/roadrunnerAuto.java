@@ -75,8 +75,8 @@ public class roadrunnerAuto extends LinearOpMode{
 //                        .turn(Math.toRadians(-30))
 //                        .waitSeconds(1)
 
-                        .turn(Math.toRadians(90))
-                        .strafeTo(new Vector2d( inPerTileX,0))
+                        .setTangent(Math.toRadians(90))
+                        .splineTo(new Vector2d(30, 30), Math.toRadians(90))
                         .build());
 
     }
