@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Auto;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.Arclength;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.Pose2dDual;
@@ -9,6 +10,7 @@ import com.acmerobotics.roadrunner.VelConstraint;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 import org.firstinspires.ftc.teamcode.TeamCode.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.TeamCode.teamcode.TankDrive;
 
@@ -23,13 +25,15 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.DriveTrain.DriveTrain;
 import org.firstinspires.ftc.teamcode.OpMode;
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous(name="roadrunner test", group="Robot")
-
+@Config
 public class roadrunnerAuto extends LinearOpMode{
-    // don't
+        public static double inPerTile = 24.3125;
+
+
     @Override
     public void runOpMode() throws InterruptedException {
         // TODO: find if same as normal competition tiles
-        double inPerTile = 24.3125;
+
 
 
         double pie = Math.PI;
@@ -57,8 +61,22 @@ public class roadrunnerAuto extends LinearOpMode{
         Actions.runBlocking(
 
                 drive.actionBuilder(beginPose)
-                        //.strafeTo(new Vector2d(0.5*inPerTileX, -2*inPerTileY))
-                        .strafeToLinearHeading(new Vector2d(inPerTileX, inPerTileY), Math.toRadians(90))
+//                         .lineToXLinearHeading(inPerTileX*2, pie/2)
+//                        .lineToX(inPerTileX)
+//                        .lineToY(inPerTileY)
+//                        .lineToYLinearHeading(inPerTileY, pie/2)
+//                        .splineTo(new Vector2d(0, inPerTileY), - Math.PI / 4)
+
+
+//                        .strafeTo(new Vector2d(0.2*inPerTileX,-1.9*inPerTileY))
+//                        .turn(Math.toRadians(-22))
+//                        .waitSeconds(1)
+//                        .turn(Math.toRadians(22))
+//                        .turn(Math.toRadians(-30))
+//                        .waitSeconds(1)
+
+                        .turn(Math.toRadians(90))
+                        .strafeTo(new Vector2d( inPerTileX,0))
                         .build());
 
     }

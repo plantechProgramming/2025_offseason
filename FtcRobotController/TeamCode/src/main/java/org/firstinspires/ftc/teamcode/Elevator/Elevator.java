@@ -95,8 +95,11 @@ public class Elevator extends LinearOpMode{
             telemetry.update();
 
         }
+        // theoretical code
+        EH.setPower(0.2);
+        sleep(500);
+        // theory end
         EH.setPower(0);
-//        EH.setPower(0);
         EH.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
     }
 
