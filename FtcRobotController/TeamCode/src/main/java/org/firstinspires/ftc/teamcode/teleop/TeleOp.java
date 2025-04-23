@@ -55,7 +55,7 @@ public class TeleOp extends OpMode {
             if (gamepad1.y){intake_center_angle.setPosition(1);}
             if (gamepad1.x){intake_center_angle.setPosition(0.57);}
 
-            if (gamepad1.dpad_up){lift.Change_Height(3000);}
+            if (gamepad1.dpad_up){lift.Change_Height(2800);}
             telemetry.addData("EH",EH.getCurrentPosition());
             if (gamepad1.dpad_down) {lift.Change_Height(0);}
 

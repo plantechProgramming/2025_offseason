@@ -78,7 +78,7 @@ public class Elevator extends LinearOpMode{
         EH.setDirection(DcMotorSimple.Direction.REVERSE);
         EH.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //        EH.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        PID pid = new PID(0.15, 0.05, 0.5, 0, 0);
+        PID pid = new PID(0.1, 0.05, 0.05, 0, 0);
 
         double thresh = 100;
         pid.setWanted(x);
@@ -95,12 +95,11 @@ public class Elevator extends LinearOpMode{
             telemetry.update();
 
         }
-        // theoretical code
         EH.setPower(0.2);
         sleep(500);
-        // theory end
-        EH.setPower(0);
         EH.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        EH.setPower(0);
+
     }
 
 
