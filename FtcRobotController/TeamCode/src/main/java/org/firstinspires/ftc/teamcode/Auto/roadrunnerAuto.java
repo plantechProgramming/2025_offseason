@@ -11,6 +11,7 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
+import org.firstinspires.ftc.teamcode.Elevator.Elevator;
 import org.firstinspires.ftc.teamcode.TeamCode.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.TeamCode.teamcode.TankDrive;
 
@@ -27,8 +28,7 @@ import org.firstinspires.ftc.teamcode.OpMode;
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous(name="roadrunner test", group="Robot")
 @Config
 public class roadrunnerAuto extends LinearOpMode{
-        public static double inPerTile = 24.3125;
-
+    public static double inPerTile = 24.3125;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -40,7 +40,9 @@ public class roadrunnerAuto extends LinearOpMode{
         Pose2d beginPose = new Pose2d(0, 0, 0);
         MecanumDrive drive = new MecanumDrive(hardwareMap, beginPose);
          double inPerTileY = inPerTile*1.42;
-         double inPerTileX = inPerTile;
+//        Elevator lift = new Elevator(EA, EH, intake_center_angle, intake_left, intake_right, intake_AR, intAR, telemetry);
+
+        double inPerTileX = inPerTile;
          VelConstraint velConstraint = new VelConstraint() {
             @Override
             public double maxRobotVel(@NonNull Pose2dDual<Arclength> pose2dDual, @NonNull PosePath posePath, double v) {

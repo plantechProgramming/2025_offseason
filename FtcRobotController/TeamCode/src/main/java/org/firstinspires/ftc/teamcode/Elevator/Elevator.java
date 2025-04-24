@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Elevator;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -11,8 +12,12 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.PID;
 
+@Config
 public class Elevator extends LinearOpMode{
-
+    public static double kP = 0.2;
+    public static double kI = 0.05;
+    public static double kD = 0.05;
+    public static double thresh = 40;
     //Thread thread = Thread.currentThread();
     ElapsedTime runtime = new ElapsedTime();
     DcMotorEx EH, EA;
@@ -78,9 +83,9 @@ public class Elevator extends LinearOpMode{
         EH.setDirection(DcMotorSimple.Direction.REVERSE);
         EH.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //        EH.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        PID pid = new PID(0.1, 0.05, 0.05, 0, 0);
 
-        double thresh = 100;
+        PID pid = new PID(kP, kI, kD, 0, 0);
+
         pid.setWanted(x);
         double power = 1;
         while (count < 3){
@@ -95,11 +100,12 @@ public class Elevator extends LinearOpMode{
             telemetry.update();
 
         }
-        EH.setPower(0.2);
+        EH.setPower(0.05);
         sleep(500);
         EH.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         EH.setPower(0);
-
+        telemetry.addData("time",runtime.milliseconds());
+        sleep(5000);
     }
 
 
