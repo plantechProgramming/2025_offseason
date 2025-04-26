@@ -27,6 +27,8 @@ public abstract class OpMode extends LinearOpMode {
     protected CRServo intake_right, intake_left;
     protected DcMotorEx DriveFrontLeft, DriveFrontRight, DriveBackLeft, DriveBackRight, EH, EA;
     protected ElapsedTime runtime = new ElapsedTime();
+    public boolean liftFlag = false;
+
 
     protected IMU Imu;
 
