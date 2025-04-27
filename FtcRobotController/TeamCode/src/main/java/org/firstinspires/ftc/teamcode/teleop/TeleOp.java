@@ -35,7 +35,7 @@ public class TeleOp extends OpMode {
         double turn;
         double drift;
         double botHeading;
-//        boolean liftFlagDown = false;
+        boolean spin_pressed = false;
         EH.setDirection(DcMotorSimple.Direction.REVERSE);
         EH.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         EA.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -53,8 +53,8 @@ public class TeleOp extends OpMode {
             else if (gamepad1.b) {roni2_intake.setPosition(0.75);}
 
 
-            if (gamepad1.dpad_up){lift.Intake_angle(1,0.1);}
-            else if (gamepad1.dpad_down){lift.Intake_angle(-1,0.1);}
+            if (gamepad1.dpad_up && !spin_pressed ){lift.Intake_angle(1,0.5); spin_pressed = true;}
+            else if (gamepad2.dpad_down && spin_pressed) {lift.Intake_angle(-1,0.5);spin_pressed = false;}            else if (gamepad1.dpad_down){lift.Intake_angle(-1,0.5);}
 //            lift.Intake_angle();
 
 //            intake_center_angle.setPosition(0.57);
