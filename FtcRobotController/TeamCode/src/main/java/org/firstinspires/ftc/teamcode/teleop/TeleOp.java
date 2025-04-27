@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.teleop;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;import static java.lang.Math.abs;
 import org.firstinspires.ftc.teamcode.DriveTrain.DriveTrain;
@@ -24,7 +26,7 @@ public class TeleOp extends OpMode {
 
 
         DriveTrain driveTrain = new DriveTrain(DriveBackRight, DriveBackLeft, DriveFrontRight, DriveFrontLeft, telemetry, Imu);
-        Elevator lift = new Elevator(EA, EH, intake_center_angle, intake_left, intake_right, intake_AR, intAR, telemetry);
+        Elevator lift = new Elevator(EA, EH, intake_center_angle, telemetry);
 
         boolean is_up = false;
 
@@ -33,6 +35,9 @@ public class TeleOp extends OpMode {
         double drift;
         double botHeading;
 //        boolean liftFlagDown = false;
+        EH.setDirection(DcMotorSimple.Direction.REVERSE);
+        EH.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        EA.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
         while (opModeIsActive() && !gamepad1.x) {
@@ -57,6 +62,10 @@ public class TeleOp extends OpMode {
             if (gamepad1.dpad_up){lift.set_wanted_height(1000);}
             else if (gamepad1.dpad_down) {lift.set_wanted_height(0);}
             lift.Change_Height();
+            lift.Change_Angle(gamepad1.dpad_right,gamepad1.dpad_left);
+
+
+
 //            telemetry.addData("EH",EH.getCurrentPosition());
 
 
@@ -70,6 +79,7 @@ public class TeleOp extends OpMode {
 
 
         }
+
         EH.setPower(0);
         sleep(10000);
     }

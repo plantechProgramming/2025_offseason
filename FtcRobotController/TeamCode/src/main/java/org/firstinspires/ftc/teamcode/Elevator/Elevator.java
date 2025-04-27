@@ -14,61 +14,53 @@ import org.firstinspires.ftc.teamcode.PID;
 
 @Config
 public class Elevator extends LinearOpMode{
-    public static double kP = 0.5;
-    public static double kI = 0.05;
-    public static double kD = 0.05;
-    public static double thresh = 40;
+
+    public static double kP_EH = 0.15;
+    public static double kI_EH = 0.05;
+    public static double kD_EH = 0.05;
+
+    PID pid_EH = new PID(kP_EH, kI_EH, kD_EH, 0, 0);
+
+
+    public static double thresh = 80;
     public double wanted;
     //Thread thread = Thread.currentThread();
     ElapsedTime runtime = new ElapsedTime();
     DcMotorEx EH, EA;
-    Servo intake_center, intake_AR, intAR;
-    CRServo intake_left, intake_right;
+    Servo intake_center;
     Telemetry telemetry;
 
-    //TODO: clean up servos imri
-    public Elevator(DcMotorEx EA, DcMotorEx EH, Servo intake_center, CRServo intake_left, CRServo intake_right, Servo intake_AR, Servo intAR, Telemetry telemetry){
+
+    public Elevator(DcMotorEx EA, DcMotorEx EH, Servo intake_center, Telemetry telemetry){
         this.EH = EH;
         this.EA = EA;
         this.intake_center = intake_center;
-        this.intake_left = intake_left;
-        this.intake_right = intake_right;
-        this.intake_AR = intake_AR;
-        this.intAR = intAR;
         this.telemetry = telemetry;
+        EA.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        EH.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
     }
 
     public void set_wanted_height(double x){
         this.wanted = x;
+        pid_EH.setWanted(wanted);
+
     }
-    public void Change_Angle(double x){
-
-        EA.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        PID pid = new PID(0.5, 0.2, 0.1, 0, 0);
-
-        EA.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-        pid.setWanted(x);
-
-        while(Math.abs(x) + 320 > Math.abs(EA.getCurrentPosition()) && Math.abs(EA.getCurrentPosition()) < Math.abs(x) - 320){
-            EA.setPower(-pid.update(EA.getCurrentPosition()));
+    public void Change_Angle(boolean right, boolean left){
+        telemetry.addData("eh",EA.getCurrentPosition());
+        if ((EA.getCurrentPosition() < 3000) && right) {
+            EA.setPower(1);
+        } else if ((EA.getCurrentPosition() > 0) && left) {
+            EA.setPower(-1);
+        } else {
+            EA.setPower(0);
 
         }
-
-        EA.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-
-        EA.setPower(0);
     }
     public void Change_Height(){
         //int count = 0;
-        EH.setDirection(DcMotorSimple.Direction.REVERSE);
-        EH.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
 //        EH.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        PID pid = new PID(kP, kI, kD, 0, 0);
-
-        pid.setWanted(wanted);
         double power = 1;
 //        if (count < 3){
 //            if (Math.abs(Math.abs(x)-Math.abs(EH.getCurrentPosition())) < thresh){
@@ -78,7 +70,7 @@ public class Elevator extends LinearOpMode{
             power = 0;
         }
         else{
-            power = pid.update(EH.getCurrentPosition());
+            power = pid_EH.update(EH.getCurrentPosition());
         }
 
 

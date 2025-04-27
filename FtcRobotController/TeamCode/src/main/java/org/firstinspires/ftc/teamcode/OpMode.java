@@ -24,7 +24,6 @@ import org.firstinspires.ftc.teamcode.Elevator.Elevator;
 public abstract class OpMode extends LinearOpMode {
 
     protected Servo intake_AR, intAR, roni_IA, intake_center_angle, roni2_intake;
-    protected CRServo intake_right, intake_left;
     protected DcMotorEx DriveFrontLeft, DriveFrontRight, DriveBackLeft, DriveBackRight, EH, EA;
     protected ElapsedTime runtime = new ElapsedTime();
     public boolean liftFlag = false;
@@ -60,7 +59,7 @@ public abstract class OpMode extends LinearOpMode {
         DriveBackRight.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 
         EA = hardwareMap.get(DcMotorEx.class, "EA");
-        EA.setDirection(DcMotorEx.Direction.FORWARD);
+        EA.setDirection(DcMotorEx.Direction.REVERSE);
         EA.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         EA.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         EA.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);

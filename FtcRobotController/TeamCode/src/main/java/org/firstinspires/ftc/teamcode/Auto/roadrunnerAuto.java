@@ -19,6 +19,8 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -33,7 +35,6 @@ public class roadrunnerAuto extends LinearOpMode{
     @Override
     public void runOpMode() throws InterruptedException {
         // TODO: find if same as normal competition tiles
-
 
 
         double pie = Math.PI;
@@ -61,7 +62,6 @@ public class roadrunnerAuto extends LinearOpMode{
             return;
         }
         Actions.runBlocking(
-
                 drive.actionBuilder(beginPose)
 //                         .lineToXLinearHeading(inPerTileX*2, pie/2)
 //                        .lineToX(inPerTileX)
@@ -80,6 +80,7 @@ public class roadrunnerAuto extends LinearOpMode{
                         .setTangent(Math.toRadians(90))
                         .splineTo(new Vector2d(30, 30), Math.toRadians(90))
                         .build());
+
 
     }
     protected void end() {
