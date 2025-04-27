@@ -27,14 +27,14 @@ public class Elevator extends LinearOpMode{
     //Thread thread = Thread.currentThread();
     ElapsedTime runtime = new ElapsedTime();
     DcMotorEx EH, EA;
-    Servo intake_center;
+    CRServo intake_center_angle;
     Telemetry telemetry;
 
 
-    public Elevator(DcMotorEx EA, DcMotorEx EH, Servo intake_center, Telemetry telemetry){
+    public Elevator(DcMotorEx EA, DcMotorEx EH, CRServo intake_center_angle, Telemetry telemetry){
         this.EH = EH;
         this.EA = EA;
-        this.intake_center = intake_center;
+        this.intake_center_angle = intake_center_angle;
         this.telemetry = telemetry;
         EA.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         EH.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
@@ -47,7 +47,7 @@ public class Elevator extends LinearOpMode{
     }
     public void Change_Angle(boolean right, boolean left){
         telemetry.addData("eh",EA.getCurrentPosition());
-        if ((EA.getCurrentPosition() < 3000) && right) {
+        if ((EA.getCurrentPosition() < 1500) && right) {
             EA.setPower(1);
         } else if ((EA.getCurrentPosition() > 0) && left) {
             EA.setPower(-1);
@@ -87,6 +87,13 @@ public class Elevator extends LinearOpMode{
 //        EH.setPower(0);
 //        telemetry.addData("time",runtime.milliseconds());
     }
+    public void Intake_angle(double power, double sec){
+        runtime.reset();
+        while(sec > runtime.seconds()){
+            intake_center_angle.setPower(power);
+        }intake_center_angle.setPower(0);
+    }
+
 
 
     @Override

@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.teleop;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;import static java.lang.Math.abs;
 import org.firstinspires.ftc.teamcode.DriveTrain.DriveTrain;
@@ -41,28 +42,27 @@ public class TeleOp extends OpMode {
 
 
         while (opModeIsActive() && !gamepad1.x) {
+            ElapsedTime elapsedTime = new ElapsedTime();
             forward = -gamepad1.left_stick_y;
             turn = gamepad1.right_stick_x;
             drift = gamepad1.left_stick_x;
             botHeading = Imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+            //TODO: buttons with golan -imri
 
-//            if(gamepad1.right_trigger > 0.0){
-//                driveTrain.drive(forward * 0.3, drift * 0.4, turn, botHeading);
-//            }else{
-//                driveTrain.drive(forward, drift, turn, botHeading);
-//            }
-////
-//
-//            if (gamepad1.a){roni2_intake.setPosition(1); }
-//            else if (gamepad1.b) {roni2_intake.setPosition(0.75);}
-//
-//            if (gamepad1.y){intake_center_angle.setPosition(1);}
-//            if (gamepad1.x){intake_center_angle.setPosition(0.57);}
+            if (gamepad1.a){roni2_intake.setPosition(1); }
+            else if (gamepad1.b) {roni2_intake.setPosition(0.75);}
 
-            if (gamepad1.dpad_up){lift.set_wanted_height(1000);}
-            else if (gamepad1.dpad_down) {lift.set_wanted_height(0);}
+
+            if (gamepad1.dpad_up){lift.Intake_angle(1,0.1);}
+            else if (gamepad1.dpad_down){lift.Intake_angle(-1,0.1);}
+//            lift.Intake_angle();
+
+//            intake_center_angle.setPosition(0.57);
+
+            if (gamepad1.right_trigger>0){lift.set_wanted_height(1000);}
+            else if (gamepad1.left_trigger>0) {lift.set_wanted_height(0);}
             lift.Change_Height();
-            lift.Change_Angle(gamepad1.dpad_right,gamepad1.dpad_left);
+            lift.Change_Angle(gamepad1.left_bumper,gamepad1.right_bumper);
 
 
 
@@ -77,7 +77,8 @@ public class TeleOp extends OpMode {
 //            telemetry.addData("center x: ", DriveFrontRight.getCurrentPosition());
 //            telemetry.addData("y: ", DriveBackLeft.getCurrentPosition());
 
-
+            telemetry.addData("time",elapsedTime.milliseconds());
+            telemetry.update();
         }
 
         EH.setPower(0);
