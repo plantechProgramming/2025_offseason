@@ -53,9 +53,9 @@ public class TeleOp extends OpMode {
             else if (gamepad1.b) {roni2_intake.setPosition(0.75);}
 
 
-            if (gamepad1.dpad_up){lift.Intake_angle(1,0.1);}
-            else if (gamepad1.dpad_down){lift.Intake_angle(-1,0.1);}
-//            lift.Intake_angle();
+
+
+            lift.Intake_angle(gamepad1.dpad_up,gamepad1.dpad_down);
 
 //            intake_center_angle.setPosition(0.57);
 

@@ -80,18 +80,11 @@ public class Elevator extends LinearOpMode{
         telemetry.update();
 
 
-//        }
-//        EH.setPower(0.05);
-//        sleep(100);
-//        EH.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-//        EH.setPower(0);
-//        telemetry.addData("time",runtime.milliseconds());
     }
-    public void Intake_angle(double power, double sec){
-        runtime.reset();
-        while(sec > runtime.seconds()){
-            intake_center_angle.setPower(power);
-        }intake_center_angle.setPower(0);
+    public void Intake_angle(boolean up, boolean down){
+        if (up){intake_center_angle.setPower(1);}
+        else if (down){intake_center_angle.setPower(-1);}
+        else{ intake_center_angle.setPower(0);}
     }
 
 
