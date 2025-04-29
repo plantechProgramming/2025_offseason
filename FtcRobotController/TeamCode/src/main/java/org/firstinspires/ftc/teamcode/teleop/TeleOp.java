@@ -59,7 +59,7 @@ public class TeleOp extends OpMode {
 
 //            intake_center_angle.setPosition(0.57);
 
-            if (gamepad1.right_trigger>0){lift.set_wanted_height(1000);}
+            if (gamepad1.right_trigger>0){lift.set_wanted_height(2800); telemetry.addData("wanted", lift.wanted);}
             else if (gamepad1.left_trigger>0) {lift.set_wanted_height(0);}
             lift.Change_Height();
             lift.Change_Angle(gamepad1.left_bumper,gamepad1.right_bumper);
