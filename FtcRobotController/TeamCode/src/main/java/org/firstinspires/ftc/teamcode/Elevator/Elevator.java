@@ -98,5 +98,20 @@ public class Elevator{
         else{ intake_center_angle.setPower(0);}
     }
 
+    public void intakeToPos(){
+        double power;
+        if (Math.abs(wanted - EH.getCurrentPosition()) < thresh){
+            power = 0;
+        }
+        else{
+            power = pid_EH.update(EH.getCurrentPosition());
+        }
+
+        EH.setPower(power);
+
+
+    }
+
 
 }
+
