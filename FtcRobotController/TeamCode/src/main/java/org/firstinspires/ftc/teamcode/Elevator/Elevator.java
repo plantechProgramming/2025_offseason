@@ -13,7 +13,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.PID;
 
 @Config
-public class Elevator extends LinearOpMode{
+public class Elevator{
 
     public static double kP_EH = 0.15;
     public static double kI_EH = 0.05;
@@ -89,8 +89,5 @@ public class Elevator extends LinearOpMode{
 
 
 
-    @Override
-    public void runOpMode() throws InterruptedException {
 
-    }
 }
