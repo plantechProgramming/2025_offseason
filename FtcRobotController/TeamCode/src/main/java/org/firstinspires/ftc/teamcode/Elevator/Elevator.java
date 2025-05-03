@@ -19,7 +19,13 @@ public class Elevator{
     public static double kI_EH = 0.05;
     public static double kD_EH = 0.05;
 
+    public static double kP_intA = 0.15;
+    public static double kI_intA = 0.05;
+    public static double kD_intA = 0.05;
+
     PID pid_EH = new PID(kP_EH, kI_EH, kD_EH, 0, 0);
+    PID pid_intA = new PID(kP_EH, kI_EH, kD_EH, 0, 0);
+
 
 
     public static double thresh = 80;
@@ -43,6 +49,11 @@ public class Elevator{
     public void set_wanted_height(double x){
         this.wanted = x;
         pid_EH.setWanted(wanted);
+
+    }
+    public void setIntake_wanted(double intake_wanted){
+        this.wanted = intake_wanted;
+        pid_intA.setWanted(wanted);
 
     }
     public void Change_Angle(boolean right, boolean left){
@@ -86,8 +97,6 @@ public class Elevator{
         else if (down){intake_center_angle.setPower(-1);}
         else{ intake_center_angle.setPower(0);}
     }
-
-
 
 
 }
