@@ -5,12 +5,13 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.PID;
+
+//TODO: make all pids this controller?
+import com.rowanmcalpin.nextftc.core.control.controllers.PIDFController;
 
 @Config
 public class Elevator{
@@ -23,18 +24,23 @@ public class Elevator{
     public static double kI_intA = 0.05;
     public static double kD_intA = 0.05;
 
+    public static double kP_EA = 0.03;
+    public static double kI_EA = 0.01;
+    public static double kD_EA = 0.01;
+
     PID pid_EH = new PID(kP_EH, kI_EH, kD_EH, 0, 0);
-    PID pid_intA = new PID(kP_EH, kI_EH, kD_EH, 0, 0);
-
-
+    PID pid_intA = new PID(kP_intA, kI_intA, kD_intA, 0, 0);
+    PID pid_EA = new PID(kP_EA, kI_EA, kD_EA, 0,0);
 
     public static double thresh = 80;
     public double wanted;
+    public double intakeWanted;
     //Thread thread = Thread.currentThread();
     ElapsedTime runtime = new ElapsedTime();
     DcMotorEx EH, EA;
     CRServo intake_center_angle;
     Telemetry telemetry;
+    public double radToTicks = Math.PI/3000;
 
 
     public Elevator(DcMotorEx EA, DcMotorEx EH, CRServo intake_center_angle, Telemetry telemetry){
@@ -44,6 +50,7 @@ public class Elevator{
         this.telemetry = telemetry;
         EA.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         EH.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        EA.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     public void set_wanted_height(double x){
@@ -51,20 +58,39 @@ public class Elevator{
         pid_EH.setWanted(wanted);
 
     }
-    public void setIntake_wanted(double intake_wanted){
-        this.wanted = intake_wanted;
-        pid_intA.setWanted(wanted);
+//    public void setIntake_wanted(double intake_wanted){
+//        this.wanted = intake_wanted;
+//        pid_intA.setWanted(wanted);
+//
+//    }
+
+    public void setAngleWanted(double intake_wanted){
+        this.intakeWanted = intake_wanted;
+        pid_EA.setWanted(intakeWanted);
 
     }
+
     public void Change_Angle(boolean right, boolean left){
+        double alpha = (EA.getCurrentPosition()*radToTicks);
+        //equation: m*g*cos(alpha)/2
+        double power = (19.6*Math.cos(alpha))/2;
+
         telemetry.addData("eh",EA.getCurrentPosition());
         if ((EA.getCurrentPosition() < 1500) && right) {
-            EA.setPower(1);
+            EA.setPower(0.25);
+//            pid_EA.setWanted(EA.getCurrentPosition());
         } else if ((EA.getCurrentPosition() > 0) && left) {
-            EA.setPower(-1);
-        } else {
-            EA.setPower(0);
-
+            EA.setPower(-0.25);
+//            pid_EA.setWanted(EA.getCurrentPosition());
+        }
+//        else if(0<EA.getCurrentPosition() && EA.getCurrentPosition()<1300 ) {
+////            double power_EA = pid_EA.update(EA.getCurrentPosition());
+//           EA.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//            EA.setPower(-power);
+//
+//        }
+        else{
+            EA.setPower(0.0005);
         }
     }
     public void Change_Height(){
@@ -91,6 +117,40 @@ public class Elevator{
         telemetry.update();
 
 
+    }
+    public void heightByPress(double right, double left){
+        if(right>0 && left>0){
+            EH.setPower(0.005);
+        }
+        else if ((EH.getCurrentPosition() < 2900) && right > 0) {
+            EH.setPower(1);
+//            pid_EA.setWanted(EA.getCurrentPosition());
+        } else if ((EH.getCurrentPosition() > 0) && left > 0) {
+            EH.setPower(-1);
+//            pid_EA.setWanted(EA.getCurrentPosition());
+        } else {
+//            double power_EA = pid_EA.update(EA.getCurrentPosition());
+            EH.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            EH.setPower(0.005);
+
+        }
+    }
+    public void Change_Angle_Pos() {
+        //int count = 0;
+
+//        EH.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        double power;
+//        if (count < 3){
+//            if (Math.abs(Math.abs(x)-Math.abs(EH.getCurrentPosition())) < thresh){
+//                count++;
+//            }
+        if (Math.abs(intakeWanted - EA.getCurrentPosition()) < thresh) {
+            power = 0;
+        } else {
+            power = pid_EA.update(EA.getCurrentPosition());
+        }
+        EA.setPower(power);
     }
     public void Intake_angle(boolean up, boolean down){
         if (up){intake_center_angle.setPower(1);}

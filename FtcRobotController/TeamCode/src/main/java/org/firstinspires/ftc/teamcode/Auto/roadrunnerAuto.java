@@ -1,12 +1,9 @@
 package org.firstinspires.ftc.teamcode.Auto;
 
 import androidx.annotation.NonNull;
-
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
-import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Arclength;
-import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.Pose2dDual;
 import com.acmerobotics.roadrunner.PosePath;
@@ -18,13 +15,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.teamcode.OpMode;
-import java.lang.Thread;
-import com.acmerobotics.roadrunner.SequentialAction;
-
-
-
 import org.firstinspires.ftc.teamcode.PID;
 import org.firstinspires.ftc.teamcode.TeamCode.teamcode.MecanumDrive;
+
 @com.qualcomm.robotcore.eventloop.opmode.Autonomous(name="roadrunner test", group="Robot")
 @Config
 public class roadrunnerAuto extends LinearOpMode{

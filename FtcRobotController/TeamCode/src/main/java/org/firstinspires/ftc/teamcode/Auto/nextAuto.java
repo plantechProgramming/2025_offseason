@@ -17,55 +17,21 @@ import org.firstinspires.ftc.teamcode.Elevator.nextLift;
 
 @Autonomous(name = "nextRoni")
 public class nextAuto extends NextFTCOpMode {
-//    Controller controller = new Controller() {
-//        @Override
-//        public double getTarget() {
-//            return 0;
-//        }
-//
-//        @Override
-//        public void setTarget(double v) {
-//
-//        }
-//
-//        @Override
-//        public double getSetPointTolerance() {
-//            return 0;
-//        }
-//
-//        @Override
-//        public void setSetPointTolerance(double v) {
-//
-//        }
-//
-//        @Override
-//        public double calculate(double v) {
-//            return 0;
-//        }
-//
-//        @Override
-//        public void reset() {
-//
-//        }
-//
-//        @Override
-//        public boolean atTarget(double v) {
-//            return false;
-//        }
-//    };
-
     public nextAuto() {
         super( nextLift.INSTANCE);
     }
     public Command firstRoutine()  {
         return new SequentialGroup(
-                nextLift.INSTANCE.toHigh()
-
+                nextLift.INSTANCE.toHigh().perpetually().
+                nextLift.INSTANCE.toLow()
         );
     }
 
+
+
     @Override
     public void onStartButtonPressed() {
+
         firstRoutine().invoke();
     }
 }
