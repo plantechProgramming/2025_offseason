@@ -21,9 +21,20 @@ public class nextAuto extends NextFTCOpMode {
         super( nextLift.INSTANCE);
     }
     public Command firstRoutine()  {
+//        return new ParallelGroup(
+//                new SequentialGroup(
+//                        nextLift.INSTANCE.setWantedHeight(2800),
+//                        new Delay(5),
+//                        nextLift.INSTANCE.setWantedHeight(0)
+//                ),
+//                nextLift.INSTANCE.toPosTicks().perpetually()
+//        );
         return new SequentialGroup(
-                nextLift.INSTANCE.toHigh().perpetually().
-                nextLift.INSTANCE.toLow()
+                new ParallelGroup(
+                        nextLift.INSTANCE.toHigh().perpetually().endAfter(5)
+                ),
+            new Delay(5),
+            nextLift.INSTANCE.toLow()
         );
     }
 
