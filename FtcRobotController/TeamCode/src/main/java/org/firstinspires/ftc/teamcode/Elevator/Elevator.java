@@ -51,6 +51,7 @@ public class Elevator{
         EA.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         EH.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         EA.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        EH.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
     }
 
     public void set_wanted_height(double x){
@@ -77,10 +78,10 @@ public class Elevator{
 
         telemetry.addData("eh",EA.getCurrentPosition());
         if ((EA.getCurrentPosition() < 1500) && right) {
-            EA.setPower(0.25);
+            EA.setPower(0.5);
 //            pid_EA.setWanted(EA.getCurrentPosition());
         } else if ((EA.getCurrentPosition() > 0) && left) {
-            EA.setPower(-0.25);
+            EA.setPower(-0.5);
 //            pid_EA.setWanted(EA.getCurrentPosition());
         }
 //        else if(0<EA.getCurrentPosition() && EA.getCurrentPosition()<1300 ) {
@@ -131,7 +132,7 @@ public class Elevator{
         } else {
 //            double power_EA = pid_EA.update(EA.getCurrentPosition());
             EH.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            EH.setPower(0.005);
+            EH.setPower(0.0005);
 
         }
     }

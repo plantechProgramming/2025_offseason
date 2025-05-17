@@ -17,24 +17,15 @@ import org.firstinspires.ftc.teamcode.Elevator.nextLift;
 
 @Autonomous(name = "nextRoni")
 public class nextAuto extends NextFTCOpMode {
+    public static final nextLift lift = new nextLift();
+
     public nextAuto() {
-        super( nextLift.INSTANCE);
+        super(lift);
     }
     public Command firstRoutine()  {
-//        return new ParallelGroup(
-//                new SequentialGroup(
-//                        nextLift.INSTANCE.setWantedHeight(2800),
-//                        new Delay(5),
-//                        nextLift.INSTANCE.setWantedHeight(0)
-//                ),
-//                nextLift.INSTANCE.toPosTicks().perpetually()
-//        );
-        return new SequentialGroup(
-                new ParallelGroup(
-                        nextLift.INSTANCE.toHigh().perpetually().endAfter(5)
-                ),
-            new Delay(5),
-            nextLift.INSTANCE.toLow()
+        return new ParallelGroup(
+            lift.toHeight(5,2900),
+            lift.toAngle(1000)
         );
     }
 
