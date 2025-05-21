@@ -17,15 +17,17 @@ import org.firstinspires.ftc.teamcode.Elevator.nextLift;
 
 @Autonomous(name = "nextRoni")
 public class nextAuto extends NextFTCOpMode {
+
+    //TODO: should be in nextlift class?
     public static final nextLift lift = new nextLift();
 
     public nextAuto() {
         super(lift);
     }
     public Command firstRoutine()  {
-        return new ParallelGroup(
-            lift.toHeight(5,2900),
-            lift.toAngle(1000)
+        return new SequentialGroup(
+                lift.toHeight(3,2900),
+                lift.toHeight(3,0)
         );
     }
 

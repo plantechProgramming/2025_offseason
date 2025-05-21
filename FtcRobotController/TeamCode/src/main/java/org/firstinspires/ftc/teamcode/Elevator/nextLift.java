@@ -33,10 +33,11 @@ public class nextLift extends Subsystem {
 //    public String EH = "EH";
 
 
+
     public Command toHeight(double sec,double height) {
-        return new SequentialGroup(
+        return new ParallelGroup(
                 new RunToPosition(EH,height,controller,this).perpetually().endAfter(sec),
-                // why doesn't this work without the delay?
+                //needed for when runtoposition finishes before the delay does
                 new Delay(sec)
         );
     }
@@ -45,6 +46,11 @@ public class nextLift extends Subsystem {
     public Command toAngle(double angle){
         return new RunToPosition(EA,angle,PID_EA,this);
     }
+
+//    @Override
+//    public Command getDefaultCommand() {
+//        return new HoldPosition(EH, controller, this);
+//    }
 
 
     @Override
