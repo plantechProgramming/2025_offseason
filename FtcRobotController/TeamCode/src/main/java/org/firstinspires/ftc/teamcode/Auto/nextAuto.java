@@ -26,8 +26,8 @@ public class nextAuto extends NextFTCOpMode {
     }
     public Command firstRoutine()  {
         return new SequentialGroup(
-                lift.toHeight(3,2900),
-                lift.toHeight(3,0)
+                lift.toAngle(5, 1000),
+                lift.toAngle(3,0.0)
         );
     }
 
