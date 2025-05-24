@@ -29,22 +29,36 @@ public class nextLift extends Subsystem {
     public double sec;
 
     public PIDFController controller = new PIDFController(0.01, 0.01, 0, new StaticFeedforward(0.1));
-    public PIDFController PID_EA = new PIDFController(0.01, 0.01, 0, new StaticFeedforward(0.1));
+    public PIDFController PID_EA = new PIDFController(0.005, 0, 0.001, new StaticFeedforward(0));
 //    public String EH = "EH";
 
 
 
     public Command toHeight(double sec,double height) {
-        return new ParallelGroup(
-                new RunToPosition(EH,height,controller,this).perpetually().endAfter(sec),
-                //needed for when runtoposition finishes before the delay does
-                new Delay(sec)
-        );
+        if (height == 0.0){
+            return new RunToPosition(EH,height,controller,this);
+        }
+        else {
+            return new ParallelGroup(
+                    new RunToPosition(EH, height, controller, this).perpetually().endAfter(sec),
+                    //needed for when runtoposition finishes before the delay does
+                    new Delay(sec)
+            );
+        }
     }
 
 
-    public Command toAngle(double angle){
-        return new RunToPosition(EA,angle,PID_EA,this);
+    public Command toAngle(double sec,double angle) {
+        if (angle == 0.0){
+            return new RunToPosition(EA,angle,PID_EA,this);
+        }
+        else {
+            return new ParallelGroup(
+                    new RunToPosition(EA, angle, PID_EA, this).perpetually().endAfter(sec),
+                    //needed for when runtoposition finishes before the delay does
+                    new Delay(sec)
+            );
+        }
     }
 
 //    @Override
