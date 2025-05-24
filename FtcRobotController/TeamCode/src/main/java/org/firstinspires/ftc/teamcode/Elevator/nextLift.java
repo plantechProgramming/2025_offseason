@@ -19,7 +19,7 @@ import com.rowanmcalpin.nextftc.ftc.hardware.controllables.MotorEx;
 import com.rowanmcalpin.nextftc.ftc.hardware.controllables.RunToPosition;
 
 import org.checkerframework.checker.units.qual.C;
-
+@Config
 public class nextLift extends Subsystem {
 
     public static final nextLift INSTANCE = new nextLift();
@@ -27,9 +27,14 @@ public class nextLift extends Subsystem {
     public MotorEx EH, EA;
     public double wantedHeight = 0;
     public double sec;
+    public static double PID_EA_KP = 0.0001;
+    public static double PID_EA_KI = 0;
+    public static double PID_EA_KD = 0.001;
+    public static double PID_EA_KF = 0;
+
 
     public PIDFController controller = new PIDFController(0.01, 0.01, 0, new StaticFeedforward(0.1));
-    public PIDFController PID_EA = new PIDFController(0.005, 0, 0.001, new StaticFeedforward(0));
+    public PIDFController PID_EA = new PIDFController(PID_EA_KP, PID_EA_KI, PID_EA_KD, new StaticFeedforward(PID_EA_KF));
 //    public String EH = "EH";
 
 

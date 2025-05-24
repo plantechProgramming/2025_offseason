@@ -13,21 +13,21 @@ import com.rowanmcalpin.nextftc.ftc.NextFTCOpMode;
 import com.rowanmcalpin.nextftc.ftc.hardware.controllables.HoldPosition;
 //import org.firstinspires.ftc.teamcode.Elevator.nextIntakeAngle;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.Elevator.nextIntakeAngle;
 import org.firstinspires.ftc.teamcode.Elevator.nextLift;
 
 @Autonomous(name = "nextRoni")
 public class nextAuto extends NextFTCOpMode {
 
     //TODO: should be in nextlift class?
-    public static final nextLift lift = new nextLift();
+//    public static final nextLift lift = new nextLift();
+//    public static final nextIntakeAngle intakeAngle = new nextIntakeAngle();
 
-    public nextAuto() {
-        super(lift);
+    public nextAuto() {super(nextLift.INSTANCE, nextIntakeAngle.INSTANCE);
     }
     public Command firstRoutine()  {
         return new SequentialGroup(
-                lift.toAngle(5, 1000),
-                lift.toAngle(3,0.0)
+                nextIntakeAngle.INSTANCE.Up()
         );
     }
 
