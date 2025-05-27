@@ -19,7 +19,8 @@ import com.rowanmcalpin.nextftc.ftc.hardware.controllables.MotorEx;
 import com.rowanmcalpin.nextftc.ftc.hardware.controllables.RunToPosition;
 
 import org.checkerframework.checker.units.qual.C;
-@Config
+import org.firstinspires.ftc.teamcode.PID;
+
 public class nextLift extends Subsystem {
 
     public static final nextLift INSTANCE = new nextLift();
@@ -31,40 +32,52 @@ public class nextLift extends Subsystem {
     public static double PID_EA_KI = 0;
     public static double PID_EA_KD = 0.001;
     public static double PID_EA_KF = 0;
+    public static double PID_EH_KP = 0.01;
+    public static double PID_EH_KI = 0.01;
+    public static double PID_EH_KD = 0;
+    public static double PID_EH_KF = 0.1;
 
 
-    public PIDFController controller = new PIDFController(0.01, 0.01, 0, new StaticFeedforward(0.1));
-    public PIDFController PID_EA = new PIDFController(PID_EA_KP, PID_EA_KI, PID_EA_KD, new StaticFeedforward(PID_EA_KF));
+    public PIDFController controller = new PIDFController(0.002, 0.02, 0, new StaticFeedforward(0.5));
+
+    public PIDFController PID_EA = new PIDFController(0.005, 0, 0, new StaticFeedforward(0));
+    PID_EA.setPointTolerance(110);
 //    public String EH = "EH";
 
 
 
-    public Command toHeight(double sec,double height) {
-        if (height == 0.0){
+    public Command toHeight(double height) {
+//        if (height == 0.0){
             return new RunToPosition(EH,height,controller,this);
-        }
-        else {
-            return new ParallelGroup(
-                    new RunToPosition(EH, height, controller, this).perpetually().endAfter(sec),
-                    //needed for when runtoposition finishes before the delay does
-                    new Delay(sec)
-            );
-        }
+//        }
+//        else {
+//            return new SequentialGroup(
+//                    new RunToPosition(EH, height, controller, this),
+//
+//                    new HoldPosition(EH,controller,this).endAfter(0));
+
+
+//                 new ParallelRaceGroup(
+
+//                        new Delay(0),
+//                        new HoldPosition(EH,controller,this)
+//                ));
+//            return new RunToPosition(EH,height,controller,this);
+//            new HoldPosition(EH,controller,this)
+
+//        }
     }
 
 
-    public Command toAngle(double sec,double angle) {
-        if (angle == 0.0){
-            return new RunToPosition(EA,angle,PID_EA,this);
-        }
-        else {
-            return new ParallelGroup(
-                    new RunToPosition(EA, angle, PID_EA, this).perpetually().endAfter(sec),
-                    //needed for when runtoposition finishes before the delay does
-                    new Delay(sec)
-            );
-        }
+    public Command toAngle(double angle,double sec) {
+        return new SequentialGroup(
+                new RunToPosition(EA,angle,PID_EA,this)
+//                new HoldPosition(EA,PID_EA,this).endAfter(sec)
+        );
+
     }
+
+
 
 //    @Override
 //    public Command getDefaultCommand() {

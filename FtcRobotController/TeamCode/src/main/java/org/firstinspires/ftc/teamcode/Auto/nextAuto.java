@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode.Auto;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.rowanmcalpin.nextftc.core.command.Command;
 import com.rowanmcalpin.nextftc.core.command.groups.ParallelGroup;
+import com.rowanmcalpin.nextftc.core.command.groups.ParallelRaceGroup;
 import com.rowanmcalpin.nextftc.core.command.groups.SequentialGroup;
 
 import com.rowanmcalpin.nextftc.core.command.utility.delays.Delay;
@@ -26,9 +27,22 @@ public class nextAuto extends NextFTCOpMode {
     public nextAuto() {super(nextLift.INSTANCE, nextIntakeAngle.INSTANCE);
     }
     public Command firstRoutine()  {
+
         return new SequentialGroup(
-                nextIntakeAngle.INSTANCE.Up()
-        );
+                nextLift.INSTANCE.toAngle(1400,2),
+                nextLift.INSTANCE.toHeight(1400)
+
+//                nextLift.INSTANCE.toHeight(2900),
+
+
+
+
+//                nextLift.INSTANCE.toHeight(3,1000),
+//                nextLift.INSTANCE.toAngle(3, 700)
+
+
+                );
+
     }
 
 
