@@ -36,6 +36,7 @@ public class nextIntakeAngle extends Subsystem {
     }
 
 
+
     @Override
     public void initialize() {
         servo = OpModeData.INSTANCE.getHardwareMap().get(Servo.class, intake_center_angle);

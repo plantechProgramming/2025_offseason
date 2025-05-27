@@ -40,11 +40,15 @@ public class nextLift extends Subsystem {
 
     public PIDFController controller = new PIDFController(0.002, 0.02, 0, new StaticFeedforward(0.5));
 
-    public PIDFController PID_EA = new PIDFController(0.005, 0, 0, new StaticFeedforward(0));
-    PID_EA.setPointTolerance(110);
+
+
 //    public String EH = "EH";
 
-
+    public Command setTolerance(int tolerance){
+        return new LambdaCommand().setStart(()->{
+            controller.setSetPointTolerance(tolerance);
+        });
+    }
 
     public Command toHeight(double height) {
 //        if (height == 0.0){
@@ -69,13 +73,7 @@ public class nextLift extends Subsystem {
     }
 
 
-    public Command toAngle(double angle,double sec) {
-        return new SequentialGroup(
-                new RunToPosition(EA,angle,PID_EA,this)
-//                new HoldPosition(EA,PID_EA,this).endAfter(sec)
-        );
 
-    }
 
 
 
@@ -94,6 +92,7 @@ public class nextLift extends Subsystem {
         EA = new MotorEx("EA");
         EA.resetEncoder();
         EA.reverse();
+        setTolerance(150);
     }
 
 

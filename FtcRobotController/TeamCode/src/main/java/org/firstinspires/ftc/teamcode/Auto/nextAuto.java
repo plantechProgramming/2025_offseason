@@ -14,6 +14,7 @@ import com.rowanmcalpin.nextftc.ftc.NextFTCOpMode;
 import com.rowanmcalpin.nextftc.ftc.hardware.controllables.HoldPosition;
 //import org.firstinspires.ftc.teamcode.Elevator.nextIntakeAngle;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.Elevator.ElevatorAngleNext;
 import org.firstinspires.ftc.teamcode.Elevator.nextIntakeAngle;
 import org.firstinspires.ftc.teamcode.Elevator.nextLift;
 
@@ -24,12 +25,12 @@ public class nextAuto extends NextFTCOpMode {
 //    public static final nextLift lift = new nextLift();
 //    public static final nextIntakeAngle intakeAngle = new nextIntakeAngle();
 
-    public nextAuto() {super(nextLift.INSTANCE, nextIntakeAngle.INSTANCE);
+    public nextAuto() {super(nextLift.INSTANCE, nextIntakeAngle.INSTANCE, ElevatorAngleNext.INSTANCE);
     }
     public Command firstRoutine()  {
 
-        return new SequentialGroup(
-                nextLift.INSTANCE.toAngle(1400,2),
+        return new ParallelGroup(
+                ElevatorAngleNext.INSTANCE.toAngle(1400,2),
                 nextLift.INSTANCE.toHeight(1400)
 
 //                nextLift.INSTANCE.toHeight(2900),
