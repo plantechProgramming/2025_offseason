@@ -61,9 +61,9 @@ public class TeleOp extends OpMode {
 
 //
 
-//            lift.Intake_angle(gamepad1.dpad_left,gamepad1.dpad_right);
-            if (gamepad1.dpad_left){intake_center_angle.setPosition(1);}
-            if(gamepad2.dpad_right){intake_center_angle.setPosition(0);}
+            lift.Intake_angle(gamepad1.dpad_left,gamepad1.dpad_right);
+//            if (gamepad1.dpad_left){intake_center_angle.setPosition(1);}
+//            if(gamepad2.dpad_right){intake_center_angle.setPosition(0);}
 
 //            intake_center_angle.setPosition(0.57);
 

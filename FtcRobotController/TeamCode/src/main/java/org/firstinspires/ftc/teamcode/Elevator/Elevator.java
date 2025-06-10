@@ -38,12 +38,12 @@ public class Elevator{
     //Thread thread = Thread.currentThread();
     ElapsedTime runtime = new ElapsedTime();
     DcMotorEx EH, EA;
-    Servo intake_center_angle;
+    CRServo intake_center_angle;
     Telemetry telemetry;
     public double radToTicks = Math.PI/3000;
 
 
-    public Elevator(DcMotorEx EA, DcMotorEx EH, Servo intake_center_angle, Telemetry telemetry){
+    public Elevator(DcMotorEx EA, DcMotorEx EH, CRServo intake_center_angle, Telemetry telemetry){
         this.EH = EH;
         this.EA = EA;
         this.intake_center_angle = intake_center_angle;
@@ -153,11 +153,11 @@ public class Elevator{
         }
         EA.setPower(power);
     }
-//    public void Intake_angle(boolean up, boolean down){
-//        if (up){intake_center_angle.setPower(1);}
-//        else if (down){intake_center_angle.setPower(-1);}
+    public void Intake_angle(boolean up, boolean down){
+        if (up){intake_center_angle.setPower(1);}
+        else if (down){intake_center_angle.setPower(-1);}
 //        else{ intake_center_angle.setPower(0);}
-//    }
+    }
 
     public void intakeToPos(){
         double power;

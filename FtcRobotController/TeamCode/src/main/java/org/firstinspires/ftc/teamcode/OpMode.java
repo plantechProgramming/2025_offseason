@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.DriveTrain.DriveTrain;
 
 public abstract class OpMode extends LinearOpMode {
 
-    protected Servo intake_center_angle;
+    protected CRServo intake_center_angle;
     protected Servo roni2_intake;
     protected DcMotorEx DriveFrontLeft, DriveFrontRight, DriveBackLeft, DriveBackRight, EH, EA;
     protected ElapsedTime runtime = new ElapsedTime();
@@ -68,7 +68,7 @@ public abstract class OpMode extends LinearOpMode {
 
 
         roni2_intake = hardwareMap.get(Servo.class, "intake");
-        intake_center_angle = hardwareMap.get(Servo.class,"intA");
+        intake_center_angle = hardwareMap.get(CRServo.class,"intA");
 
         Imu = hardwareMap.get(IMU.class, "imu");
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
