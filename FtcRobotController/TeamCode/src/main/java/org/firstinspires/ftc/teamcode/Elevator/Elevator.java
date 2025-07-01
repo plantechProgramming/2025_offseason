@@ -121,7 +121,7 @@ public class Elevator{
     }
     public void heightByPress(double right, double left){
         if(right>0 && left>0){
-            EH.setPower(0.005);
+            EH.setPower(0.0005);
         }
         else if ((EH.getCurrentPosition() < 2900) && right > 0) {
             EH.setPower(1);
@@ -132,7 +132,7 @@ public class Elevator{
         } else {
 //            double power_EA = pid_EA.update(EA.getCurrentPosition());
             EH.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            EH.setPower(0.0005);
+            EH.setPower(0.0003);
 
         }
     }

@@ -49,7 +49,7 @@ public class TeleOp extends OpMode {
 
             ElapsedTime elapsedTime = new ElapsedTime();
 
-            if(gamepad1.right_trigger > 0.0){
+            if(gamepad1.x){
                 driveTrain.drive(forward * 0.3, drift * 0.4, turn, botHeading);
             }else{
                 driveTrain.drive(forward, drift, turn, botHeading);
