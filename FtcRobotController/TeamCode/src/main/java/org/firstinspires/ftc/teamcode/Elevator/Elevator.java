@@ -132,7 +132,7 @@ public class Elevator{
         } else {
 //            double power_EA = pid_EA.update(EA.getCurrentPosition());
             EH.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            EH.setPower(0.0003);
+            EH.setPower(0.0005);
 
         }
     }
@@ -176,9 +176,9 @@ public class Elevator{
     public void stupid(boolean up, boolean down){
         double add;
         if (down){
-            add = 0.003;
+            add = 0.02;
         } else if (up) {
-            add = -0.003;
+            add = -0.02;
         }
         else{
             add = 0;

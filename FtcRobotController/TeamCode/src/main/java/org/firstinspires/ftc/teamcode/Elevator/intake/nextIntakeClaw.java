@@ -1,7 +1,6 @@
-package org.firstinspires.ftc.teamcode.Elevator;
+package org.firstinspires.ftc.teamcode.Elevator.intake;
 
 
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.rowanmcalpin.nextftc.core.Subsystem;
 import com.rowanmcalpin.nextftc.core.command.Command;
@@ -9,9 +8,6 @@ import com.rowanmcalpin.nextftc.core.control.controllers.PIDFController;
 import com.rowanmcalpin.nextftc.core.control.controllers.feedforward.StaticFeedforward;
 import com.rowanmcalpin.nextftc.ftc.OpModeData;
 import com.rowanmcalpin.nextftc.ftc.hardware.ServoToPosition;
-import com.qualcomm.robotcore.hardware.CRServo;
-import com.rowanmcalpin.nextftc.ftc.hardware.controllables.MotorEx;
-import com.rowanmcalpin.nextftc.ftc.hardware.controllables.RunToPosition;
 
 public class nextIntakeClaw extends Subsystem {
     // BOILERPLATE
@@ -25,7 +21,7 @@ public class nextIntakeClaw extends Subsystem {
 
     public Command close(){
         return new ServoToPosition(clawAngle, // SERVO TO MOVE
-                1,// POSITION TO MOVE TO
+                0.64,// POSITION TO MOVE TO
                 this); // IMPLEMENTED SUBSYSTEM
     }
 
@@ -36,7 +32,6 @@ public class nextIntakeClaw extends Subsystem {
     }
     @Override
     public void initialize() {
-
         clawAngle = OpModeData.INSTANCE.getHardwareMap().get(Servo.class,claw);
     }
 

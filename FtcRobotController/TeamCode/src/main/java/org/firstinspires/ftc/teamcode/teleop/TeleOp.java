@@ -55,13 +55,13 @@ public class TeleOp extends OpMode {
                 driveTrain.drive(forward, drift, turn, botHeading);
             }
 
-            if (gamepad1.a){roni2_intake.setPosition(1); }
+            if (gamepad1.a){roni2_intake.setPosition(0.64); }
             else if (gamepad1.b) {roni2_intake.setPosition(0);}
 
 
 //
 
-            lift.Intake_angle(gamepad1.dpad_left,gamepad1.dpad_right);
+            lift.stupid(gamepad1.dpad_down,gamepad1.dpad_up);
 //            if (gamepad1.dpad_left){intake_center_angle.setPosition(1);}
 //            if(gamepad2.dpad_right){intake_center_angle.setPosition(0);}
 
@@ -71,7 +71,7 @@ public class TeleOp extends OpMode {
 //            else if (gamepad1.left_trigger>0) {lift.set_wanted_height(0);}
             lift.heightByPress(gamepad1.right_trigger,gamepad1.left_trigger);
 //            lift.Change_Height();
-            lift.Change_Angle(gamepad1.right_bumper,gamepad1.left_bumper);
+            lift.Change_Angle(gamepad1.left_bumper,gamepad1.right_bumper);
 //            if (gamepad1.left_bumper){lift.setAngleWanted(1285);}
 //            else if (gamepad1.right_bumper) {lift.setAngleWanted(0);}
 //            lift.Change_Angle_Pos();

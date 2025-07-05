@@ -2,38 +2,21 @@ package org.firstinspires.ftc.teamcode.Auto;
 
 import com.pedropathing.follower.Follower;
 import com.pedropathing.localization.Pose;
-import com.pedropathing.pathgen.BezierCurve;
 import com.pedropathing.pathgen.BezierLine;
-import com.pedropathing.pathgen.Path;
 import com.pedropathing.pathgen.PathChain;
 import com.pedropathing.pathgen.Point;
-import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-
-import pedroPathing.constants.FConstants;
-import pedroPathing.constants.LConstants;
 
 
-
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.rowanmcalpin.nextftc.core.command.Command;
-import com.rowanmcalpin.nextftc.core.command.groups.ParallelGroup;
-import com.rowanmcalpin.nextftc.core.command.groups.ParallelRaceGroup;
 import com.rowanmcalpin.nextftc.core.command.groups.SequentialGroup;
 
-import com.rowanmcalpin.nextftc.core.command.utility.delays.Delay;
-import com.rowanmcalpin.nextftc.core.control.controllers.Controller;
-import com.rowanmcalpin.nextftc.core.units.TimeSpan;
 import com.rowanmcalpin.nextftc.pedro.FollowPath;
 import com.rowanmcalpin.nextftc.pedro.PedroOpMode;
-import com.rowanmcalpin.nextftc.ftc.hardware.controllables.HoldPosition;
-//import org.firstinspires.ftc.teamcode.Elevator.nextIntakeAngle;
-import org.firstinspires.ftc.robotcore.external.Telemetry;
+//import org.firstinspires.ftc.teamcode.Elevator.intake.nextIntakeAngle;
 import org.firstinspires.ftc.teamcode.Elevator.ElevatorAngleNext;
-import org.firstinspires.ftc.teamcode.Elevator.nextIntakeAngle;
+import org.firstinspires.ftc.teamcode.Elevator.intake.nextIntakeAngle;
 import org.firstinspires.ftc.teamcode.Elevator.nextLift;
-import org.firstinspires.ftc.teamcode.Auto.AutoCommands;
 
 @Autonomous(name = "auto :DDD")
 public class Gamily extends PedroOpMode {
