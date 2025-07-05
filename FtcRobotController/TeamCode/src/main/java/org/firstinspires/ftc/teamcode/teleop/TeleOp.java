@@ -90,6 +90,8 @@ public class TeleOp extends OpMode {
 //            telemetry.addData("y: ", DriveBackLeft.getCurrentPosition());
 
             telemetry.addData("ea",EA.getCurrentPosition());
+            telemetry.addData("eH",EH.getCurrentPosition());
+
             telemetry.update();
 
         }

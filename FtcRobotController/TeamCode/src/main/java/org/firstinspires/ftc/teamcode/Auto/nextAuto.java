@@ -25,7 +25,8 @@ public class nextAuto extends NextFTCOpMode {
 //    public static final nextLift lift = new nextLift();
 //    public static final nextIntakeAngle intakeAngle = new nextIntakeAngle();
 
-    public nextAuto() {super(nextLift.INSTANCE, nextIntakeAngle.INSTANCE, ElevatorAngleNext.INSTANCE);
+    public nextAuto() {
+        super(nextLift.INSTANCE, nextIntakeAngle.INSTANCE, ElevatorAngleNext.INSTANCE);
     }
     public Command firstRoutine()  {
 
