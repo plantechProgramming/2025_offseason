@@ -123,7 +123,7 @@ public class Elevator{
         if(right>0 && left>0){
             EH.setPower(0.0005);
         }
-        else if ((EH.getCurrentPosition() < 2400) && right > 0) {
+        else if ((EH.getCurrentPosition() < 2350) && right > 0) {
             EH.setPower(1);
 //            pid_EA.setWanted(EA.getCurrentPosition());
         } else if ((EH.getCurrentPosition() > 0) && left > 0) {

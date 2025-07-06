@@ -68,7 +68,10 @@ public abstract class OpMode extends LinearOpMode {
 
 
         roni2_intake = hardwareMap.get(Servo.class, "intake");
+
+
         intake_center_angle = hardwareMap.get(Servo.class,"intA");
+        intake_center_angle.setPosition(0.35);
 
         Imu = hardwareMap.get(IMU.class, "imu");
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(

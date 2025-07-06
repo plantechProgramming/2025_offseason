@@ -47,12 +47,7 @@ public class AutoCommands extends NextFTCOpMode{
     }
 
     // not very useful
-    public Command score(){
-        return new SequentialGroup(
-                takeSample(),
-                sampleToBasket()
-        );
-    }
+
 
 
     @Override

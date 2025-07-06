@@ -55,7 +55,7 @@ public class TeleOp extends OpMode {
                 driveTrain.drive(forward, drift, turn, botHeading);
             }
 
-            if (gamepad1.a){roni2_intake.setPosition(0.64); }
+            if (gamepad1.a){roni2_intake.setPosition(0.7); }
             else if (gamepad1.b) {roni2_intake.setPosition(0);}
 
 
