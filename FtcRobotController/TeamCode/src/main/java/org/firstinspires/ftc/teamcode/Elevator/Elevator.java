@@ -78,10 +78,10 @@ public class Elevator{
 
         telemetry.addData("eh",EA.getCurrentPosition());
         if ((EA.getCurrentPosition() < 1500) && right) {
-            EA.setPower(0.5);
+            EA.setPower(0.4);
 //            pid_EA.setWanted(EA.getCurrentPosition());
         } else if ((EA.getCurrentPosition() > 0) && left) {
-            EA.setPower(-0.5);
+            EA.setPower(-0.4);
 //            pid_EA.setWanted(EA.getCurrentPosition());
         }
 //        else if(0<EA.getCurrentPosition() && EA.getCurrentPosition()<1300 ) {
@@ -168,6 +168,7 @@ public class Elevator{
             power = pid_EH.update(EH.getCurrentPosition());
         }
 
+
         EH.setPower(power);
 
 
@@ -175,15 +176,16 @@ public class Elevator{
 
     public void stupid(boolean up, boolean down){
         double add;
-        if (down){
-            add = 0.02;
+        if (down ){
+            add = 0.01;
         } else if (up) {
-            add = -0.02;
+            add = -0.01;
         }
         else{
             add = 0;
         }
         intake_center_angle.setPosition(intake_center_angle.getPosition() + add);
+    telemetry.addData("intake angle",intake_center_angle.getPosition());
     }
 }
 

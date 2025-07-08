@@ -95,7 +95,6 @@ public class TeleOp extends OpMode {
             telemetry.update();
 
         }
-
         EH.setPower(0);
     }
     @Override
