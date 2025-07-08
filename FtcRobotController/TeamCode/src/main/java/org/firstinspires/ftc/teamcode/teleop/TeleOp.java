@@ -27,7 +27,7 @@ public class TeleOp extends OpMode {
 
 
         DriveTrain driveTrain = new DriveTrain(DriveBackRight, DriveBackLeft, DriveFrontRight, DriveFrontLeft, telemetry, Imu);
-        Elevator lift = new Elevator(EA, EH, intake_center_angle, telemetry);
+        Elevator lift = new Elevator(EA, EH, intake_center_angle,roni2_intake, telemetry);
 
         boolean is_up = false;
 
@@ -50,7 +50,7 @@ public class TeleOp extends OpMode {
             ElapsedTime elapsedTime = new ElapsedTime();
 
             if(gamepad1.x){
-                driveTrain.drive(forward * 0.3, drift * 0.4, turn, botHeading);
+                driveTrain.drive(forward * 0.35, drift * 0.35, turn * 0.5, botHeading);
             }else{
                 driveTrain.drive(forward, drift, turn, botHeading);
             }
@@ -58,10 +58,12 @@ public class TeleOp extends OpMode {
             if (gamepad1.a){roni2_intake.setPosition(0.7); }
             else if (gamepad1.b) {roni2_intake.setPosition(0);}
 
+            if(gamepad1.y){lift.preload();}
+
 
 //
 
-            lift.stupid(gamepad1.dpad_down,gamepad1.dpad_up);
+            lift.Intake_Angle(gamepad1.dpad_down,gamepad1.dpad_up);
 //            if (gamepad1.dpad_left){intake_center_angle.setPosition(1);}
 //            if(gamepad2.dpad_right){intake_center_angle.setPosition(0);}
 

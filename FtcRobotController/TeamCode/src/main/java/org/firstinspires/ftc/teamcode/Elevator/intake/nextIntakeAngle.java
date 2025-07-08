@@ -12,7 +12,7 @@ import com.rowanmcalpin.nextftc.ftc.hardware.ServoToPosition;
 public class nextIntakeAngle extends Subsystem {
     // BOILERPLATE
     public static final nextIntakeAngle INSTANCE = new nextIntakeAngle();
-    private nextIntakeAngle() { }
+    public nextIntakeAngle() { }
     public Servo intA;
 
     // same as TeleOp roni2_intake
@@ -38,7 +38,6 @@ public class nextIntakeAngle extends Subsystem {
     @Override
     public void initialize() {
         intA = OpModeData.INSTANCE.getHardwareMap().get(Servo.class, intake_center_angle);
-        clawAngle = OpModeData.INSTANCE.getHardwareMap().get(Servo.class,claw);
     }
 
 }

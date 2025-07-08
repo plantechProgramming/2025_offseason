@@ -18,7 +18,7 @@ public class nextIntakeClaw extends Subsystem {
     public Servo clawAngle;
     public String claw = "intake";
     public PIDFController PID_intA = new PIDFController(0.005, 0, 0, new StaticFeedforward(0));
-
+//intA = intake Angle
     public Command close(){
         return new ServoToPosition(clawAngle, // SERVO TO MOVE
                 0.64,// POSITION TO MOVE TO

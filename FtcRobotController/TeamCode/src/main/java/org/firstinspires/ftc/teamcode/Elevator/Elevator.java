@@ -38,15 +38,16 @@ public class Elevator{
     //Thread thread = Thread.currentThread();
     ElapsedTime runtime = new ElapsedTime();
     DcMotorEx EH, EA;
-    Servo intake_center_angle;
+    Servo intake_center_angle,roni2_intake;
     Telemetry telemetry;
     public double radToTicks = Math.PI/3000;
 
 
-    public Elevator(DcMotorEx EA, DcMotorEx EH, Servo intake_center_angle, Telemetry telemetry){
+    public <roni2_intake> Elevator(DcMotorEx EA, DcMotorEx EH, Servo intake_center_angle, Servo roni2_intake, Telemetry telemetry){
         this.EH = EH;
         this.EA = EA;
         this.intake_center_angle = intake_center_angle;
+        this.roni2_intake = roni2_intake;
         this.telemetry = telemetry;
         EA.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         EH.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
@@ -54,20 +55,51 @@ public class Elevator{
         EH.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
     }
 
-    public void set_wanted_height(double x){
-        this.wanted = x;
-        pid_EH.setWanted(wanted);
+    public void Move_Elevator(double x){
+
+        EH.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        PID pid = new PID(0.5, 0.2, 0.1, 0, 0);
+
+        EH.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        pid.setWanted(x);
+
+        while(Math.abs(x) + 320 > Math.abs(EH.getCurrentPosition()) && Math.abs(EH.getCurrentPosition()) < Math.abs(x) - 320){
+            EH.setPower(pid.update(EH.getCurrentPosition()));
+            telemetry.addLine("in");
+            telemetry.addData("pos: ", EH.getCurrentPosition());
+            telemetry.addData("x: ", x);
+            telemetry.update();
+        }
+
+        EH.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+
+        EH.setPower(0.0005);
 
     }
-//    public void setIntake_wanted(double intake_wanted){
-//        this.wanted = intake_wanted;
-//        pid_intA.setWanted(wanted);
-//
-//    }
 
-    public void setAngleWanted(double intake_wanted){
-        this.intakeWanted = intake_wanted;
-        pid_EA.setWanted(intakeWanted);
+    public void Move_Elevator_Angle(double x){
+
+        EA.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        PID pid = new PID(0.5, 0.2, 0.1, 0, 0);
+
+        EA.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        pid.setWanted(x);
+
+        while(Math.abs(x) + 320 > Math.abs(EA.getCurrentPosition()) && Math.abs(EA.getCurrentPosition()) < Math.abs(x) - 320){
+            EA.setPower(pid.update(EA.getCurrentPosition()));
+            telemetry.addLine("in");
+            telemetry.addData("pos: ", EA.getCurrentPosition());
+            telemetry.addData("x: ", x);
+            telemetry.update();
+        }
+
+        EA.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+
+        EA.setPower(0.0005);
 
     }
 
@@ -91,39 +123,16 @@ public class Elevator{
 //
 //        }
         else{
-            EA.setPower(0.0005);
+            EA.setPower(0.0025);
         }
     }
-    public void Change_Height(){
-        //int count = 0;
-
-//        EH.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        double power = 1;
-//        if (count < 3){
-//            if (Math.abs(Math.abs(x)-Math.abs(EH.getCurrentPosition())) < thresh){
-//                count++;
-//            }
-        if (Math.abs(wanted - EH.getCurrentPosition()) < thresh){
-            power = 0;
-        }
-        else{
-            power = pid_EH.update(EH.getCurrentPosition());
-        }
 
 
-        EH.setPower(power);
-        telemetry.addData("EH:",EH.getCurrentPosition());
-        telemetry.addData("power:",power);
-        telemetry.update();
-
-
-    }
     public void heightByPress(double right, double left){
         if(right>0 && left>0){
             EH.setPower(0.0005);
         }
-        else if ((EH.getCurrentPosition() < 2350) && right > 0) {
+        else if ((EH.getCurrentPosition() < 2300) && right > 0) {
             EH.setPower(1);
 //            pid_EA.setWanted(EA.getCurrentPosition());
         } else if ((EH.getCurrentPosition() > 0) && left > 0) {
@@ -174,7 +183,7 @@ public class Elevator{
 
     }
 
-    public void stupid(boolean up, boolean down){
+    public void Intake_Angle(boolean up, boolean down){
         double add;
         if (down ){
             add = 0.01;
@@ -186,6 +195,14 @@ public class Elevator{
         }
         intake_center_angle.setPosition(intake_center_angle.getPosition() + add);
     telemetry.addData("intake angle",intake_center_angle.getPosition());
+    }
+    public void preload(){
+        Move_Elevator_Angle(1750);
+        Move_Elevator(2300);
+        intake_center_angle.setPosition(0.57);
+        roni2_intake.setPosition(0);
+
+
     }
 }
 

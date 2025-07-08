@@ -28,17 +28,10 @@ public class nextLift extends Subsystem {
     public MotorEx EH, EA;
     public double wantedHeight = 0;
     public double sec;
-    public static double PID_EA_KP = 0.0001;
-    public static double PID_EA_KI = 0;
-    public static double PID_EA_KD = 0.001;
-    public static double PID_EA_KF = 0;
-    public static double PID_EH_KP = 0.01;
-    public static double PID_EH_KI = 0.01;
-    public static double PID_EH_KD = 0;
-    public static double PID_EH_KF = 0.1;
 
 
-    public PIDFController controller = new PIDFController(0.002, 0.02, 0, new StaticFeedforward(0.5));
+
+    public PIDFController controller = new PIDFController(0.001, 0.02, 0, new StaticFeedforward(0.5));
 
 
 
@@ -51,8 +44,12 @@ public class nextLift extends Subsystem {
     }
 
     public Command toHeight(double height) {
+        return new SequentialGroup(
+                new RunToPosition(EH,height,controller,this),
+            new HoldPosition(EH,controller,this).perpetually().endAfter(2)
+        );
 //        if (height == 0.0){
-            return new RunToPosition(EH,height,controller,this);
+
 //        }
 //        else {
 //            return new SequentialGroup(
@@ -67,7 +64,7 @@ public class nextLift extends Subsystem {
 //                        new HoldPosition(EH,controller,this)
 //                ));
 //            return new RunToPosition(EH,height,controller,this);
-//            new HoldPosition(EH,controller,this)
+
 
 //        }
     }

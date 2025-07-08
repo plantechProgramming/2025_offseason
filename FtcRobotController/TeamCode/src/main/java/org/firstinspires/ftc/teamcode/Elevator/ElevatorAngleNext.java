@@ -15,14 +15,14 @@ public class ElevatorAngleNext  extends Subsystem {
     private ElevatorAngleNext() { }
     public MotorEx EA;
 
-    public PIDFController PID_EA = new PIDFController(0.003, 0, 0, new StaticFeedforward(0));
+    public PIDFController PID_EA = new PIDFController(0.0025, 0, 0, new StaticFeedforward(0));
 
     public Command setTolerance(int tolerance){
         return new LambdaCommand().setStart(()->{
             PID_EA.setSetPointTolerance(tolerance);
         });
     }
-    public Command toAngle(double angle, double sec) {
+    public Command toAngle(double angle) {
 
         return new SequentialGroup(
                 new RunToPosition(EA,angle,PID_EA,this)

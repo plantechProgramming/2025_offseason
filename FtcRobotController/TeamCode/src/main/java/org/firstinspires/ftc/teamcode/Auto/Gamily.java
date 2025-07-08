@@ -21,29 +21,30 @@ import com.rowanmcalpin.nextftc.pedro.PedroOpMode;
 //import org.firstinspires.ftc.teamcode.Elevator.intake.nextIntakeAngle;
 import org.firstinspires.ftc.teamcode.Elevator.ElevatorAngleNext;
 import org.firstinspires.ftc.teamcode.Elevator.intake.nextIntakeAngle;
+import org.firstinspires.ftc.teamcode.Elevator.intake.nextIntakeClaw;
 import org.firstinspires.ftc.teamcode.Elevator.nextLift;
 
 import pedroPathing.constants.FConstants;
 import pedroPathing.constants.LConstants;
 
 @Autonomous(name = "lior ;)")
-public class Gamily extends OpMode {
+public class Gamily extends PedroOpMode {
 
     //TODO: should be in nextlift class?
-//    public static final nextLift lift = new nextLift();
-//    public static final nextIntakeAngle intakeAngle = new nextIntakeAngle();
+      public static final nextLift lift = new nextLift();
+      public static final nextIntakeAngle intakeAngle = new nextIntakeAngle();
 
-    //    public Gamily() {
-//        super(nextLift.INSTANCE, nextIntakeAngle.INSTANCE, ElevatorAngleNext.INSTANCE);
-//    }
+          public Gamily() {
+          super(nextLift.INSTANCE,  nextIntakeAngle.INSTANCE,ElevatorAngleNext.INSTANCE, nextIntakeClaw.INSTANCE);
+      }
     AutoCommands commands = new AutoCommands();
 
-    Follower follower;
+
     private Timer pathTimer, actionTimer, opmodeTimer;
 
     private int pathState;
     private final Pose startPose = new Pose(8.57,104.17 ,0);
-    private final Pose scorePose = new Pose(8,124,-45);
+    private final Pose scorePose = new Pose(6,126,-45);
     private final Pose sample1 = new Pose(24,120,0);
     private final Pose parkPose = new Pose(60, 98, Math.toRadians(90));    // Parking position
 
@@ -52,140 +53,148 @@ public class Gamily extends OpMode {
 //    private final Pose sample1 = new Pose(119, 23, 0);
 //    private final Pose parkPose = new Pose(83, 45, Math.toRadians(90));    // Parking position
 
-    private Path scorePreload,park;
-    private PathChain  grabPickup1, take2, take3, scorePickup1, score2, score3;
+    private Path park;
+    private PathChain  scorePreload, grabPickup1, take2, take3, scorePickup1, score2, score3;
 
     public void buildPaths() {
 
-        scorePreload = new Path(new BezierLine(new Point(startPose), new Point(scorePose)));
-        scorePreload.setLinearHeadingInterpolation(startPose.getHeading(), scorePose.getHeading());
+        scorePreload = follower.pathBuilder()
+                .addPath(new BezierLine(new Point(startPose), new Point(scorePose)))
+                .setLinearHeadingInterpolation(startPose.getHeading(), scorePose.getHeading())
+                .build();
 //
 //
-//        grabPickup1 = follower.pathBuilder()
-//                .addPath(new BezierLine(new Point(scorePose), new Point(sample1)))
-//                .setLinearHeadingInterpolation(scorePose.getHeading(), sample1.getHeading())
-//                .build();
-//        scorePickup1 = follower.pathBuilder()
-//                .addPath(new BezierLine(new Point(sample1), new Point(scorePose)))
-//                .setLinearHeadingInterpolation(sample1.getHeading(), scorePose.getHeading())
-//                .build();
-//        park = new Path(new BezierLine(new Point(startPose), new Point(parkPose)));
-//        park.setLinearHeadingInterpolation(startPose.getHeading(), parkPose.getHeading());
+        grabPickup1 = follower.pathBuilder()
+                .addPath(new BezierLine(new Point(scorePose), new Point(sample1)))
+                .setLinearHeadingInterpolation(scorePose.getHeading(), sample1.getHeading())
+                .build();
+        scorePickup1 = follower.pathBuilder()
+                .addPath(new BezierLine(new Point(sample1), new Point(scorePose)))
+                .setLinearHeadingInterpolation(sample1.getHeading(), scorePose.getHeading())
+                .build();
+        park = new Path(new BezierLine(new Point(startPose), new Point(parkPose)));
+        park.setLinearHeadingInterpolation(startPose.getHeading(), parkPose.getHeading());
 
     }
 
 
-//    public Command preload()  {
-//        return new SequentialGroup(
-//                new FollowPath(scorePreload),
-//                commands.sampleToBasket()
-//        );
-//    }
-//
+    public Command preload()  {
+        return new SequentialGroup(
+                new FollowPath(scorePreload),
+                commands.sampleToBasket()
+        );
+    }
+
 //    public Command take1(){
 //        return new SequentialGroup(
 //            new FollowPath(take1),
 //                commands.sampleToBasket()
 //        );
 //    }
-//
-//    @Override
-//    public void onStartButtonPressed() {
-//        preload().invoke();
-//    }
-//}
-
-
-    public void autonomousPathUpdate() {
-        switch (pathState) {
-            case 0: // Move from start to scoring position
-                follower.followPath(scorePreload);
-                setPathState(1);
-                break;
-//
-//            case 1: // Wait until the robot is near the scoring position
-//                if (!follower.isBusy()) {
-//                    follower.followPath(grabPickup1, true);
-//                    setPathState(2);
-//                }
-//                break;
-//
-//            case 2: // Wait until the robot is near the first sample pickup position
-//                if (!follower.isBusy()) {
-//                    follower.followPath(scorePickup1, true);
-//                    setPathState(3);
-//                }
-//                break;
-//
-//
-//
-//            case 7: // Wait until the robot returns to the scoring position
-//                if (!follower.isBusy()) {
-//                    follower.followPath(park, true);
-//                    setPathState(8);
-//                }
-//                break;
-
-            case 1: // Wait until the robot is near the parking position
-                if (!follower.isBusy()) {
-                    setPathState(-1); // End the autonomous routine
-                }
-                break;
-        }
-    }
-
-    public void setPathState(int pState) {
-        pathState = pState;
-        pathTimer.resetTimer();
-    }
+@Override
+public void onInit() {
+    follower = new Follower(hardwareMap, FConstants.class, LConstants.class);
+    follower.setStartingPose(startPose);
+    buildPaths();
+}
 
     @Override
-    public void loop() {
-
-        // These loop the movements of the robot
-        follower.update();
-        autonomousPathUpdate();
-
-        // Feedback to Driver Hub
-        telemetry.addData("path state", pathState);
-        telemetry.addData("x", follower.getPose().getX());
-        telemetry.addData("y", follower.getPose().getY());
-        telemetry.addData("heading", follower.getPose().getHeading());
-        telemetry.update();
-    }
-
-    @Override
-    public void init() {
-        pathTimer = new Timer();
-        opmodeTimer = new Timer();
-        opmodeTimer.resetTimer();
-
-        follower = new Follower(hardwareMap, FConstants.class, LConstants.class);
-        follower.setStartingPose(startPose);
-        buildPaths();
-    }
-
-    /**
-     * This method is called continuously after Init while waiting for "play".
-     **/
-    @Override
-    public void init_loop() {
-    }
-
-    /**
-     * This method is called once at the start of the OpMode.
-     * It runs all the setup actions, including building paths and starting the path system
-     **/
-    @Override
-    public void start() {
-        opmodeTimer.resetTimer();
-        setPathState(0);
-    }
-
-    /**
-     * We do not use this because everything should automatically disable
-     **/
-    @Override
-    public void stop() {
+    public void onStartButtonPressed() {
+        preload().invoke();
     }
 }
+
+
+//    public void autonomousPathUpdate() {
+//        switch (pathState) {
+//            case 0: // Move from start to scoring position
+//                follower.followPath(scorePreload,true);
+//                setPathState(1);
+//                break;
+////
+////            case 1: // Wait until the robot is near the scoring position
+////                if (!follower.isBusy()) {
+////                    follower.followPath(grabPickup1, true);
+////                    setPathState(2);
+////                }
+////                break;
+////
+////            case 2: // Wait until the robot is near the first sample pickup position
+////                if (!follower.isBusy()) {
+////                    follower.followPath(scorePickup1, true);
+////                    setPathState(3);
+////                }
+////                break;
+////
+////
+////
+////            case 7: // Wait until the robot returns to the scoring position
+////                if (!follower.isBusy()) {
+////                    follower.followPath(park, true);
+////                    setPathState(8);
+////                }
+////                break;
+//
+//            case 1: // Wait until the robot is near the parking position
+//                if (!follower.isBusy()) {
+//                    setPathState(-1); // End the autonomous routine
+//                }
+//                break;
+//        }
+//    }
+//
+//    public void setPathState(int pState) {
+//        pathState = pState;
+//        pathTimer.resetTimer();
+//    }
+//
+////    @Override
+////    public void loop() {
+////
+////        // These loop the movements of the robot
+////        follower.update();
+////        autonomousPathUpdate();
+////
+////        // Feedback to Driver Hub
+////        telemetry.addData("path state", pathState);
+////        telemetry.addData("x", follower.getPose().getX());
+////        telemetry.addData("y", follower.getPose().getY());
+////        telemetry.addData("heading", follower.getPose().getHeading());
+////        telemetry.update();
+////    }
+////
+////    @Override
+////    public void init() {
+////        pathTimer = new Timer();
+////        opmodeTimer = new Timer();
+////        opmodeTimer.resetTimer();
+////
+////        follower = new Follower(hardwareMap, FConstants.class, LConstants.class);
+////        follower.setStartingPose(startPose);
+////        buildPaths();
+////    }
+////
+////    /**
+////     * This method is called continuously after Init while waiting for "play".
+////     **/
+////    @Override
+////    public void init_loop() {
+////    }
+////
+////    /**
+////     * This method is called once at the start of the OpMode.
+////     * It runs all the setup actions, including building paths and starting the path system
+////     **/
+////    @Override
+////    public void start() {
+////        opmodeTimer.resetTimer();
+////        setPathState(0);
+////    }
+////
+////    /**
+////     * We do not use this because everything should automatically disable
+////     **/
+////    @Override
+////    public void stop() {
+////    }
+//}
