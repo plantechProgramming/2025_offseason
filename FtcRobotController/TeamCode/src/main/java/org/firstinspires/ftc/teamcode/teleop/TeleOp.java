@@ -25,7 +25,6 @@ public class TeleOp extends OpMode {
     @Override
     public void run(){
 
-
         DriveTrain driveTrain = new DriveTrain(DriveBackRight, DriveBackLeft, DriveFrontRight, DriveFrontLeft, telemetry, Imu);
         Elevator lift = new Elevator(EA, EH, intake_center_angle,roni2_intake, telemetry);
 
@@ -36,7 +35,7 @@ public class TeleOp extends OpMode {
         double drift;
         double botHeading;
         boolean slow = false;
-//        boolean liftFlagDown = false;
+
         EH.setDirection(DcMotorSimple.Direction.REVERSE);
         EH.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         EA.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -49,14 +48,14 @@ public class TeleOp extends OpMode {
             botHeading = Imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
 
             ElapsedTime elapsedTime = new ElapsedTime();
-            driveTrain.drive(forward, drift, turn, botHeading);
+            driveTrain.drive(forward, drift, turn, botHeading, 1);
 
 
-            if(gamepad1.x && slow == false){
-                driveTrain.drive(forward * 0.1, drift * 0.1, turn * 0.1, botHeading);
+            if(gamepad1.x && !slow){
+                driveTrain.drive(forward, drift, turn, botHeading, 0.5);
                 slow = true;
-            }else if(gamepad1.x && slow == true) {
-                driveTrain.drive(forward, drift, turn, botHeading);
+            }else if(gamepad1.x && slow) {
+                driveTrain.drive(forward, drift, turn, botHeading, 1);
                 slow = false;
                 telemetry.addData("y: ", DriveBackLeft.getCurrentPosition());
                 telemetry.addData("x:", DriveFrontRight.getCurrentPosition());
@@ -69,8 +68,6 @@ public class TeleOp extends OpMode {
             if(gamepad1.y){lift.preload();}
 
 
-//
-
             lift.Intake_Angle(gamepad1.dpad_down,gamepad1.dpad_up);
 //            if (gamepad1.dpad_left){intake_center_angle.setPosition(1);}
 //            if(gamepad2.dpad_right){intake_center_angle.setPosition(0);}
@@ -80,24 +77,10 @@ public class TeleOp extends OpMode {
 //            if (gamepad1.right_trigger>0){lift.set_wanted_height(2900); telemetry.addData("wanted", lift.wanted);}
 //            else if (gamepad1.left_trigger>0) {lift.set_wanted_height(0);}
             lift.heightByPress(gamepad1.right_trigger,gamepad1.left_trigger);
-//            lift.Change_Height();
+
             lift.Change_Angle(gamepad1.right_bumper,gamepad1.left_bumper);
-//            if (gamepad1.left_bumper){lift.setAngleWanted(1285);}
-//            else if (gamepad1.right_bumper) {lift.setAngleWanted(0);}
-//            lift.Change_Angle_Pos();
-
-
-
-//            telemetry.addData("EH",EH.getCurrentPosition());
-
-
-
 
             if(gamepad1.back){Imu.resetYaw();}
-
-//            telemetry.addData("IMU: ", botHeading);
-//            telemetry.addData("center x: ", DriveFrontRight.getCurrentPosition());
-//            telemetry.addData("y: ", DriveBackLeft.getCurrentPosition());
 
             telemetry.addData("ea",EA.getCurrentPosition());
             telemetry.addData("eH",EH.getCurrentPosition());

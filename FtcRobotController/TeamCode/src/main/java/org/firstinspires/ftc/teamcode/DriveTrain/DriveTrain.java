@@ -51,7 +51,9 @@ public class DriveTrain {
         BR.setPower(1 * power);
     }
 
-    public void drive(double y, double x, double rx, double botHeading){
+    public void drive(double y, double x, double rx, double botHeading, double slowRatio){
+
+        // slowRatio [0,1] - output power multiplier
 
         FL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         FR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -74,11 +76,11 @@ public class DriveTrain {
         double frontRightPower = (rotY - rotX - rx) / denominator;// before - rotX
         double backRightPower = (rotY + rotX - rx) / denominator;// before + rotX
 
-        FL.setPower(frontLeftPower);
-        BL.setPower(backLeftPower);
+        FL.setPower(frontLeftPower * slowRatio);
+        BL.setPower(backLeftPower * slowRatio);
 
-        FR.setPower(frontRightPower);
-        BR.setPower(backRightPower);
+        FR.setPower(frontRightPower * slowRatio);
+        BR.setPower(backRightPower * slowRatio);
 
     }
 

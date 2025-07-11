@@ -171,7 +171,7 @@ public abstract class OpMode extends LinearOpMode {
             error = degrees - DriveBackLeft.getCurrentPosition();
             power = pid.update2(DriveBackLeft.getCurrentPosition());
 
-            driveTrain.drive(0, 0, power, 0);
+            driveTrain.drive(0, 0, power, 0,1);
 
         }
         driveTrain.stop();
@@ -206,7 +206,7 @@ public abstract class OpMode extends LinearOpMode {
                 }
                 error = (Math.abs(posX)+Math.abs(posY)) - DriveBackLeft.getCurrentPosition();
 
-                driveTrain.drive(0, 0, power, 0);
+                driveTrain.drive(0, 0, power, 0, 1);
 
             }
             driveTrain.stop();

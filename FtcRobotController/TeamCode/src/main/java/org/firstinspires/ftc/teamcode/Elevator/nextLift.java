@@ -25,21 +25,11 @@ public class nextLift extends Subsystem {
 
     public static final nextLift INSTANCE = new nextLift();
     public nextLift() { }
-
-
     public MotorEx motor;
-   String name = "EH";
-    public double wantedHeight = 0;
-    public double sec;
-
-
-
-    public PIDFController controller = new PIDFController(0.001, 0.02, 0, new StaticFeedforward(0.5));
-
-
+    String name = "EH";
+    public PIDFController controller;
 
 //    public String EH = "EH";
-
     public Command setTolerance(int tolerance){
         return new LambdaCommand().setStart(()->{
             controller.setSetPointTolerance(tolerance);
@@ -49,46 +39,20 @@ public class nextLift extends Subsystem {
     public Command toHeight(double height, double sec) {
         return  new RunToPosition(motor,height,controller,this).perpetually().endAfter(sec);
 
-//        if (height == 0.0){
-
-//        }
-//        else {
-//            return new SequentialGroup(
-//                    new RunToPosition(EH, height, controller, this),
-//
-//                    new HoldPosition(EH,controller,this).endAfter(0));
-
-
-//                 new ParallelRaceGroup(
-
-//                        new Delay(0),
-//                        new HoldPosition(EH,controller,this)
-//                ));
-//            return new RunToPosition(EH,height,controller,this);
-
-
-//     }
     }
-
-
-
-
-
 
 //    @Override
 //    public Command getDefaultCommand() {
 //        return new HoldPosition(EH, controller, this);
 //    }
 
-
     @Override
     public void initialize() {
         motor = new MotorEx(name);
         motor.resetEncoder();
         motor.reverse();
-
+        controller = new PIDFController(0.001, 0.02, 0.0, new StaticFeedforward(0.5));
+        setTolerance(150);
 
     }
-
-
 }
