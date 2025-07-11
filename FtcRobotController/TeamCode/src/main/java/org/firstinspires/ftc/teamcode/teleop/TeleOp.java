@@ -35,6 +35,7 @@ public class TeleOp extends OpMode {
         double turn;
         double drift;
         double botHeading;
+        boolean slow = false;
 //        boolean liftFlagDown = false;
         EH.setDirection(DcMotorSimple.Direction.REVERSE);
         EH.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -48,12 +49,19 @@ public class TeleOp extends OpMode {
             botHeading = Imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
 
             ElapsedTime elapsedTime = new ElapsedTime();
+            driveTrain.drive(forward, drift, turn, botHeading);
 
-            if(gamepad1.x){
-                driveTrain.drive(forward * 0.35, drift * 0.35, turn * 0.5, botHeading);
-            }else{
+
+            if(gamepad1.x && slow == false){
+                driveTrain.drive(forward * 0.1, drift * 0.1, turn * 0.1, botHeading);
+                slow = true;
+            }else if(gamepad1.x && slow == true) {
                 driveTrain.drive(forward, drift, turn, botHeading);
+                slow = false;
+                telemetry.addData("y: ", DriveBackLeft.getCurrentPosition());
+                telemetry.addData("x:", DriveFrontRight.getCurrentPosition());
             }
+
 
             if (gamepad1.a){roni2_intake.setPosition(0.7); }
             else if (gamepad1.b) {roni2_intake.setPosition(0);}
@@ -73,7 +81,7 @@ public class TeleOp extends OpMode {
 //            else if (gamepad1.left_trigger>0) {lift.set_wanted_height(0);}
             lift.heightByPress(gamepad1.right_trigger,gamepad1.left_trigger);
 //            lift.Change_Height();
-            lift.Change_Angle(gamepad1.left_bumper,gamepad1.right_bumper);
+            lift.Change_Angle(gamepad1.right_bumper,gamepad1.left_bumper);
 //            if (gamepad1.left_bumper){lift.setAngleWanted(1285);}
 //            else if (gamepad1.right_bumper) {lift.setAngleWanted(0);}
 //            lift.Change_Angle_Pos();
@@ -99,6 +107,7 @@ public class TeleOp extends OpMode {
         }
         EH.setPower(0);
     }
+
     @Override
     protected void end() {
 

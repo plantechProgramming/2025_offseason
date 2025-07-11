@@ -1,18 +1,21 @@
 package org.firstinspires.ftc.teamcode.Auto;
 
 
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.rowanmcalpin.nextftc.core.command.Command;
 import com.rowanmcalpin.nextftc.core.command.groups.ParallelGroup;
 import com.rowanmcalpin.nextftc.core.command.groups.SequentialGroup;
 
 import com.rowanmcalpin.nextftc.ftc.NextFTCOpMode;
 //import org.firstinspires.ftc.teamcode.Elevator.intake.nextIntakeAngle;
+import org.firstinspires.ftc.teamcode.Elevator.Elevator;
 import org.firstinspires.ftc.teamcode.Elevator.ElevatorAngleNext;
 import org.firstinspires.ftc.teamcode.Elevator.intake.nextIntakeAngle;
 import org.firstinspires.ftc.teamcode.Elevator.nextLift;
 import org.firstinspires.ftc.teamcode.Elevator.intake.nextIntakeClaw;
 
 public class AutoCommands extends NextFTCOpMode{
+//    Elevator elevator = new Elevator(DcMotor EA, );
 
     public AutoCommands() {
         super(nextLift.INSTANCE, nextIntakeAngle.INSTANCE, ElevatorAngleNext.INSTANCE,nextIntakeClaw.INSTANCE);
@@ -26,7 +29,7 @@ public class AutoCommands extends NextFTCOpMode{
     public Command takeSample(){
         return new SequentialGroup(
                 new ParallelGroup(
-                        lift.toHeight(2400),
+                        lift.toHeight(2400,0.5),
                         intakeAngle.Down(),
                         intakeClaw.open()
                 ),
@@ -35,17 +38,19 @@ public class AutoCommands extends NextFTCOpMode{
     }
     public Command sampleToBasket(){
         return new SequentialGroup(
-            new ParallelGroup(
+
+
                 elevatorAngle.toAngle(1700),
-                lift.toHeight(2300)
-            ),
+                lift.toHeight(2300,2),
             intakeAngle.Up(),
             intakeClaw.open(),
 
-            new ParallelGroup(
-            lift.toHeight(0),
-            elevatorAngle.toAngle(0)
-            ) );
+
+
+                lift.toHeight(0,0.5),
+                elevatorAngle.toAngle(0)
+
+             );
     }
 
     // not very useful

@@ -33,6 +33,7 @@ public class nextIntakeClaw extends Subsystem {
     @Override
     public void initialize() {
         clawAngle = OpModeData.INSTANCE.getHardwareMap().get(Servo.class,claw);
+        clawAngle.setPosition(0.7);
     }
 
 }

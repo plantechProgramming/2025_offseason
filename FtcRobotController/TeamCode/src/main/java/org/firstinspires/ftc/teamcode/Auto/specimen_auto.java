@@ -2,26 +2,17 @@ package org.firstinspires.ftc.teamcode.Auto;
 
 import com.pedropathing.follower.Follower;
 import com.pedropathing.localization.Pose;
-import com.pedropathing.pathgen.BezierCurve;
 import com.pedropathing.pathgen.BezierLine;
 import com.pedropathing.pathgen.Path;
 import com.pedropathing.pathgen.PathChain;
 import com.pedropathing.pathgen.Point;
-import com.pedropathing.util.Constants;
 import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import org.firstinspires.ftc.teamcode.Elevator.Elevator;
-
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.rowanmcalpin.nextftc.core.command.Command;
 import com.rowanmcalpin.nextftc.core.command.groups.SequentialGroup;
-
 import com.rowanmcalpin.nextftc.pedro.FollowPath;
 import com.rowanmcalpin.nextftc.pedro.PedroOpMode;
-//import org.firstinspires.ftc.teamcode.Elevator.intake.nextIntakeAngle;
+
 import org.firstinspires.ftc.teamcode.Elevator.ElevatorAngleNext;
 import org.firstinspires.ftc.teamcode.Elevator.intake.nextIntakeAngle;
 import org.firstinspires.ftc.teamcode.Elevator.intake.nextIntakeClaw;
@@ -30,14 +21,14 @@ import org.firstinspires.ftc.teamcode.Elevator.nextLift;
 import pedroPathing.constants.FConstants;
 import pedroPathing.constants.LConstants;
 
-@Autonomous(name = "lior ;)")
-public class Gamily extends PedroOpMode {
+@Autonomous(name = "roni ;)")
+public class specimen_auto extends PedroOpMode {
 
     //TODO: should be in nextlift class?
       public static final nextLift lift = new nextLift();
       public static final nextIntakeAngle intakeAngle = new nextIntakeAngle();
 
-    public Gamily() {
+    public specimen_auto() {
           super(nextLift.INSTANCE,  nextIntakeAngle.INSTANCE,ElevatorAngleNext.INSTANCE, nextIntakeClaw.INSTANCE);
       }
     AutoCommands commands = new AutoCommands();
@@ -47,10 +38,10 @@ public class Gamily extends PedroOpMode {
     private Timer pathTimer, actionTimer, opmodeTimer;
 
     private int pathState;
-    private final Pose startPose = new Pose(8.7,104 ,Math.toRadians(0));
-    private final Pose scorePose = new Pose(14.4,128.75,Math.toRadians(135));
+    private final Pose startPose = new Pose(8.7,80.75 ,Math.toRadians(0));
+    private final Pose scorePose = new Pose(10,128,Math.toRadians(0));
     private final Pose sample1 = new Pose(24,120,0);
-    private final Pose parkPose = new Pose(10, 15.5, Math.toRadians(90));    // Parking position
+    private final Pose parkPose = new Pose(10, 15.5, Math.toRadians(0));    // Parking position
 
 //    private final Pose startPose = new Pose(134.926487747958, 55.953325554259045, 0);
 //    private final Pose scorePose = new Pose(128.89, 16.47, -45);
@@ -63,8 +54,8 @@ public class Gamily extends PedroOpMode {
     public void buildPaths() {
 
         scorePreload = follower.pathBuilder()
-                .addPath(new BezierLine(new Point(startPose), new Point(scorePose)))
-                .setLinearHeadingInterpolation(startPose.getHeading(), scorePose.getHeading())
+                .addPath(new BezierLine(new Point(startPose), new Point(parkPose)))
+                .setLinearHeadingInterpolation(startPose.getHeading(), parkPose.getHeading())
                 .build();
 //
 //
@@ -84,21 +75,16 @@ public class Gamily extends PedroOpMode {
 
     public Command preload()  {
         return new SequentialGroup(
-                new FollowPath(scorePreload),
-                nextIntakeAngle.INSTANCE.Down(),
-                nextIntakeClaw.INSTANCE.open()
-
+                new FollowPath(scorePreload)
         );
     }
 
-    public Command testing(){
-        return new SequentialGroup(
-//            lift.toHeight(500,1),
-                nextIntakeClaw.INSTANCE.open(),
-        new FollowPath(park)
-
-        );
-    }
+//    public Command take1(){
+//        return new SequentialGroup(
+//            new FollowPath(take1),
+//                commands.sampleToBasket()
+//        );
+//    }
 @Override
 public void onInit() {
     follower = new Follower(hardwareMap, FConstants.class, LConstants.class);
@@ -109,7 +95,6 @@ public void onInit() {
     @Override
     public void onStartButtonPressed() {
         preload().invoke();
-        testing().invoke();
     }
 }
 

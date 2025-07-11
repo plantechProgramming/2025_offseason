@@ -25,7 +25,7 @@ public class nextAuto extends NextFTCOpMode {
 
         return new ParallelGroup(
                 ElevatorAngleNext.INSTANCE.toAngle(1400),
-                nextLift.INSTANCE.toHeight(1400)
+                nextLift.INSTANCE.toHeight(1400,1)
 
 //                nextLift.INSTANCE.toHeight(2900),
 

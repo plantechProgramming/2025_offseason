@@ -25,7 +25,10 @@ public class nextLift extends Subsystem {
 
     public static final nextLift INSTANCE = new nextLift();
     public nextLift() { }
-    public MotorEx EH, EA;
+
+
+    public MotorEx motor;
+   String name = "EH";
     public double wantedHeight = 0;
     public double sec;
 
@@ -43,11 +46,9 @@ public class nextLift extends Subsystem {
         });
     }
 
-    public Command toHeight(double height) {
-        return new SequentialGroup(
-                new RunToPosition(EH,height,controller,this),
-            new HoldPosition(EH,controller,this).perpetually().endAfter(2)
-        );
+    public Command toHeight(double height, double sec) {
+        return  new RunToPosition(motor,height,controller,this).perpetually().endAfter(sec);
+
 //        if (height == 0.0){
 
 //        }
@@ -66,7 +67,7 @@ public class nextLift extends Subsystem {
 //            return new RunToPosition(EH,height,controller,this);
 
 
-//        }
+//     }
     }
 
 
@@ -82,14 +83,11 @@ public class nextLift extends Subsystem {
 
     @Override
     public void initialize() {
-        EH = new MotorEx("EH");
-        EH.resetEncoder();
-        EH.reverse();
+        motor = new MotorEx(name);
+        motor.resetEncoder();
+        motor.reverse();
 
-        EA = new MotorEx("EA");
-        EA.resetEncoder();
-        EA.reverse();
-        setTolerance(150);
+
     }
 
 

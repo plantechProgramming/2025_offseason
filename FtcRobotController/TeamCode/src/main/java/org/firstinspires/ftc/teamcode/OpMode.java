@@ -72,7 +72,7 @@ public abstract class OpMode extends LinearOpMode {
 
 
         intake_center_angle = hardwareMap.get(Servo.class,"intA");
-        intake_center_angle.setPosition(0.35);
+        intake_center_angle.setPosition(0.7);
 
         Imu = hardwareMap.get(IMU.class, "imu");
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
