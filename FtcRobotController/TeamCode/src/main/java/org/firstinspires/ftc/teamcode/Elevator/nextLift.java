@@ -37,7 +37,10 @@ public class nextLift extends Subsystem {
     }
 
     public Command toHeight(double height, double sec) {
-        return  new RunToPosition(motor,height,controller,this).perpetually().endAfter(sec);
+        return new ParallelRaceGroup(
+                new RunToPosition(motor,height,controller,this),
+        new Delay(sec)
+        );
 
     }
 

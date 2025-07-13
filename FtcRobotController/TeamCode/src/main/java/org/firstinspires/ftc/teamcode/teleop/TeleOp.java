@@ -4,7 +4,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
+import org.firstinspires.ftc.robotcore.external.hardware.camera.*;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;import static java.lang.Math.abs;
 import org.firstinspires.ftc.teamcode.DriveTrain.DriveTrain;
 
@@ -26,7 +26,7 @@ public class TeleOp extends OpMode {
     public void run(){
 
         DriveTrain driveTrain = new DriveTrain(DriveBackRight, DriveBackLeft, DriveFrontRight, DriveFrontLeft, telemetry, Imu);
-        Elevator lift = new Elevator(EA, EH, intake_center_angle,roni2_intake, telemetry);
+        Elevator lift = new Elevator(EA, EH, intake_center_angle,roni2_intake,IntakeL,IntakeR, telemetry);
 
         boolean is_up = false;
 
@@ -57,17 +57,17 @@ public class TeleOp extends OpMode {
             }else if(gamepad1.x && slow) {
                 driveTrain.drive(forward, drift, turn, botHeading, 1);
                 slow = false;
-                telemetry.addData("y: ", DriveBackLeft.getCurrentPosition());
-                telemetry.addData("x:", DriveFrontRight.getCurrentPosition());
-            }
+
+            } telemetry.addData("y: ", DriveBackLeft.getCurrentPosition());
+            telemetry.addData("x:", DriveFrontRight.getCurrentPosition());
 
 
-            if (gamepad1.a){roni2_intake.setPosition(0.7); }
-            else if (gamepad1.b) {roni2_intake.setPosition(0);}
+            lift.Intake(gamepad1.a,gamepad1.b);
 
             if(gamepad1.y){lift.preload();}
 
 
+//            lift.Intake_Angle(gamepad1.dpad_down,gamepad1.dpad_up);
             lift.Intake_Angle(gamepad1.dpad_down,gamepad1.dpad_up);
 //            if (gamepad1.dpad_left){intake_center_angle.setPosition(1);}
 //            if(gamepad2.dpad_right){intake_center_angle.setPosition(0);}

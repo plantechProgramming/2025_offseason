@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Auto;
 
+import com.arcrobotics.ftclib.command.WaitCommand;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.localization.Pose;
 import com.pedropathing.pathgen.BezierCurve;
@@ -17,8 +18,11 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.rowanmcalpin.nextftc.core.command.Command;
+import com.rowanmcalpin.nextftc.core.command.groups.ParallelGroup;
 import com.rowanmcalpin.nextftc.core.command.groups.SequentialGroup;
 
+import com.rowanmcalpin.nextftc.core.command.utility.delays.Delay;
+import com.rowanmcalpin.nextftc.core.command.utility.delays.WaitUntil;
 import com.rowanmcalpin.nextftc.pedro.FollowPath;
 import com.rowanmcalpin.nextftc.pedro.PedroOpMode;
 //import org.firstinspires.ftc.teamcode.Elevator.intake.nextIntakeAngle;
@@ -49,7 +53,7 @@ public class Gamily extends PedroOpMode {
     private int pathState;
     private final Pose startPose = new Pose(8.7,104 ,Math.toRadians(0));
     private final Pose scorePose = new Pose(8,141,Math.toRadians(-45)); // basket
-    private final Pose sample1 = new Pose(24,120,0);
+    private final Pose sample1 = new Pose(15,130,0);
     private final Pose parkPose = new Pose(10, 15.5, Math.toRadians(90));    // Parking position
 
     private Path park;
@@ -81,11 +85,17 @@ public class Gamily extends PedroOpMode {
         return new SequentialGroup(
                 new FollowPath(scorePreload),
 //                nextIntakeAngle.INSTANCE.Down(),
-
+                new ParallelGroup(
                 ElevatorAngleNext.INSTANCE.toAngle(1600),
-                nextLift.INSTANCE.toHeight(2300,2),
-                nextIntakeClaw.INSTANCE.open()
-        );
+                nextLift.INSTANCE.toHeight(2300,2)
+                ),
+                intakeAngle.Up(),
+                new Delay(0.5),
+                nextLift.INSTANCE.toHeight(0,0),
+                ElevatorAngleNext.INSTANCE.toAngle(0),
+                new FollowPath(grabPickup1),
+                nextLift.INSTANCE.toHeight(2300,2)
+                );
     }
 
     public Command testing(){

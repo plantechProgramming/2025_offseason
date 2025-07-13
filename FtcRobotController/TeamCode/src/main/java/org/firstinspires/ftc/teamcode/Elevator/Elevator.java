@@ -39,13 +39,16 @@ public class Elevator{
     ElapsedTime runtime = new ElapsedTime();
     DcMotorEx EH, EA;
     Servo intake_center_angle,roni2_intake;
+    CRServo IntakeL, IntakeR;
     Telemetry telemetry;
     public double radToTicks = Math.PI/3000;
 
 
-    public <roni2_intake> Elevator(DcMotorEx EA, DcMotorEx EH, Servo intake_center_angle, Servo roni2_intake, Telemetry telemetry){
+    public <roni2_intake> Elevator(DcMotorEx EA, DcMotorEx EH, Servo intake_center_angle, Servo roni2_intake,CRServo IntakeL,CRServo IntakeR, Telemetry telemetry){
         this.EH = EH;
         this.EA = EA;
+        this.IntakeL = IntakeL;
+        this.IntakeR = IntakeR;
         this.intake_center_angle = intake_center_angle;
         this.roni2_intake = roni2_intake;
         this.telemetry = telemetry;
@@ -132,7 +135,7 @@ public class Elevator{
         if(right>0 && left>0){
             EH.setPower(0.0005);
         }
-        else if ((EH.getCurrentPosition() < 2300) && right > 0) {
+        else if ((EH.getCurrentPosition() < 2350) && right > 0) {
             EH.setPower(1);
 //            pid_EA.setWanted(EA.getCurrentPosition());
         } else if ((EH.getCurrentPosition() > 0) && left > 0) {
@@ -142,6 +145,26 @@ public class Elevator{
 //            double power_EA = pid_EA.update(EA.getCurrentPosition());
             EH.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             EH.setPower(0.0005);
+
+        }
+    }
+    public void Intake(boolean in,boolean out){
+
+         if (in){
+            IntakeL.setPower(1);
+            IntakeR.setPower(-1);
+//            pid_EA.setWanted(EA.getCurrentPosition());
+        } else if (out){
+            IntakeL.setPower(-1);
+            IntakeR.setPower(1);
+//            pid_EA.setWanted(EA.getCurrentPosition());
+        } else if (!in && !out) {
+             IntakeR.setPower(0);
+             IntakeL.setPower(0);
+         } else {
+//            double power_EA = pid_EA.update(EA.getCurrentPosition());
+            EH.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            EH.setPower(0);
 
         }
     }
