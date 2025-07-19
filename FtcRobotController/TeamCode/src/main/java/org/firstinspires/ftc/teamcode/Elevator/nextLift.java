@@ -27,7 +27,7 @@ public class nextLift extends Subsystem {
     public nextLift() { }
     public MotorEx motor;
     String name = "EH";
-    public PIDFController controller;
+    public PIDFController controller = new PIDFController(0.001, 0.02, 0.0, new StaticFeedforward(0.7));
 
 //    public String EH = "EH";
     public Command setTolerance(int tolerance){
@@ -38,15 +38,15 @@ public class nextLift extends Subsystem {
 
     public Command toHeight(double height, double sec) {
         return new ParallelRaceGroup(
-                new RunToPosition(motor,height,controller,this),
-        new Delay(sec)
+                new RunToPosition(motor,height,controller,this).perpetually(),
+                new Delay(sec)
         );
 
     }
 
-//    @Override
+//   @Override
 //    public Command getDefaultCommand() {
-//        return new HoldPosition(EH, controller, this);
+//       return new HoldPosition(motor, controller, this);
 //    }
 
     @Override
@@ -54,8 +54,8 @@ public class nextLift extends Subsystem {
         motor = new MotorEx(name);
         motor.resetEncoder();
         motor.reverse();
-        controller = new PIDFController(0.001, 0.02, 0.0, new StaticFeedforward(0.5));
-        setTolerance(150);
+
+        setTolerance(100);
 
     }
 }

@@ -25,7 +25,7 @@ public class nextIntakeAngle extends Subsystem {
 
     public Command Up() {
         return new ServoToPosition(intA, // SERVO TO MOVE
-                1,// POSITION TO MOVE TO
+                0.9,// POSITION TO MOVE TO
                 this); // IMPLEMENTED SUBSYSTEM
     }
 
@@ -38,7 +38,7 @@ public class nextIntakeAngle extends Subsystem {
     @Override
     public void initialize() {
         intA = OpModeData.INSTANCE.getHardwareMap().get(Servo.class, intake_center_angle);
-        intA.setPosition(1);
+        intA.setPosition(0.7);
     }
 
 }

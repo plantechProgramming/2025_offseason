@@ -68,8 +68,7 @@ public abstract class OpMode extends LinearOpMode {
         EH.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 
 
-        roni2_intake = hardwareMap.get(Servo.class, "intake");
-        roni2_intake.setPosition(0.7);
+
 
 
         intake_center_angle = hardwareMap.get(Servo.class,"intA");

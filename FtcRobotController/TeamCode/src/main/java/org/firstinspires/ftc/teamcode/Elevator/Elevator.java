@@ -38,19 +38,18 @@ public class Elevator{
     //Thread thread = Thread.currentThread();
     ElapsedTime runtime = new ElapsedTime();
     DcMotorEx EH, EA;
-    Servo intake_center_angle,roni2_intake;
+    Servo intake_center_angle;
     CRServo IntakeL, IntakeR;
     Telemetry telemetry;
     public double radToTicks = Math.PI/3000;
 
 
-    public <roni2_intake> Elevator(DcMotorEx EA, DcMotorEx EH, Servo intake_center_angle, Servo roni2_intake,CRServo IntakeL,CRServo IntakeR, Telemetry telemetry){
+    public <roni2_intake> Elevator(DcMotorEx EA, DcMotorEx EH, Servo intake_center_angle,CRServo IntakeL,CRServo IntakeR, Telemetry telemetry){
         this.EH = EH;
         this.EA = EA;
         this.IntakeL = IntakeL;
         this.IntakeR = IntakeR;
         this.intake_center_angle = intake_center_angle;
-        this.roni2_intake = roni2_intake;
         this.telemetry = telemetry;
         EA.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         EH.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
@@ -114,17 +113,11 @@ public class Elevator{
         telemetry.addData("eh",EA.getCurrentPosition());
         if ((EA.getCurrentPosition() < 1500) && right) {
             EA.setPower(0.4);
-//            pid_EA.setWanted(EA.getCurrentPosition());
+
         } else if ((EA.getCurrentPosition() > 0) && left) {
             EA.setPower(-0.4);
-//            pid_EA.setWanted(EA.getCurrentPosition());
         }
-//        else if(0<EA.getCurrentPosition() && EA.getCurrentPosition()<1300 ) {
-////            double power_EA = pid_EA.update(EA.getCurrentPosition());
-//           EA.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//            EA.setPower(-power);
-//
-//        }
+
         else{
             EA.setPower(0.0025);
         }
@@ -149,7 +142,6 @@ public class Elevator{
         }
     }
     public void Intake(boolean in,boolean out){
-
          if (in){
             IntakeL.setPower(1);
             IntakeR.setPower(-1);
@@ -161,13 +153,26 @@ public class Elevator{
         } else if (!in && !out) {
              IntakeR.setPower(0);
              IntakeL.setPower(0);
-         } else {
+//        } else {
 //            double power_EA = pid_EA.update(EA.getCurrentPosition());
-            EH.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            EH.setPower(0);
-
-        }
+             EH.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+             EH.setPower(0);
+         }
     }
+//        double add;
+//        if (in){
+//            add = 0.01;
+//        } else if (out) {
+//            add = -0.01;
+//        }
+//        else{
+//            add = 0;
+//        }
+//        IntakeL.setPosition(IntakeL.getPosition() + add);
+//        IntakeR.setPosition(IntakeR.getPosition() + add);
+//        telemetry.addData("intakeR",IntakeR.getPosition());
+//        telemetry.addData("intakeL",IntakeL.getPosition());
+//    }
     public void Change_Angle_Pos() {
         //int count = 0;
 
@@ -223,7 +228,7 @@ public class Elevator{
         Move_Elevator_Angle(1750);
         Move_Elevator(2300);
         intake_center_angle.setPosition(0.57);
-        roni2_intake.setPosition(0);
+
 
 
     }

@@ -31,24 +31,24 @@ public class AutoCommands extends NextFTCOpMode{
                 new ParallelGroup(
                         lift.toHeight(2400,0.5),
                         intakeAngle.Down(),
-                        intakeClaw.open()
+                        intakeClaw.out(2)
                 ),
-                intakeClaw.close()
+                intakeClaw.in(0.5)
         );
     }
     public Command sampleToBasket(){
         return new SequentialGroup(
 
 
-                elevatorAngle.toAngle(1700),
+                elevatorAngle.toAngle(1700, 1),
                 lift.toHeight(2300,2),
             intakeAngle.Up(),
-            intakeClaw.open(),
+            intakeClaw.out(2),
 
 
 
                 lift.toHeight(0,0.5),
-                elevatorAngle.toAngle(0)
+                elevatorAngle.toAngle(0, 1)
 
              );
     }

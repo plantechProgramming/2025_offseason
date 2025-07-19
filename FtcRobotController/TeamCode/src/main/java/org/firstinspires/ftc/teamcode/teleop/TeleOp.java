@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.teleop;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.*;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;import static java.lang.Math.abs;
@@ -26,7 +27,7 @@ public class TeleOp extends OpMode {
     public void run(){
 
         DriveTrain driveTrain = new DriveTrain(DriveBackRight, DriveBackLeft, DriveFrontRight, DriveFrontLeft, telemetry, Imu);
-        Elevator lift = new Elevator(EA, EH, intake_center_angle,roni2_intake,IntakeL,IntakeR, telemetry);
+        Elevator lift = new Elevator(EA, EH, intake_center_angle,IntakeL,IntakeR, telemetry);
 
         boolean is_up = false;
 
@@ -35,7 +36,6 @@ public class TeleOp extends OpMode {
         double drift;
         double botHeading;
         boolean slow = false;
-
         EH.setDirection(DcMotorSimple.Direction.REVERSE);
         EH.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         EA.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -49,6 +49,8 @@ public class TeleOp extends OpMode {
 
             ElapsedTime elapsedTime = new ElapsedTime();
             driveTrain.drive(forward, drift, turn, botHeading, 1);
+            telemetry.addData("x", DriveFrontRight.getCurrentPosition());
+            telemetry.addData("y",DriveBackLeft.getCurrentPosition());
 
 
             if(gamepad1.x && !slow){

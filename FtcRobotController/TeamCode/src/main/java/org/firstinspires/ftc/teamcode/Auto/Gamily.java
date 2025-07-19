@@ -86,13 +86,13 @@ public class Gamily extends PedroOpMode {
                 new FollowPath(scorePreload),
 //                nextIntakeAngle.INSTANCE.Down(),
                 new ParallelGroup(
-                ElevatorAngleNext.INSTANCE.toAngle(1600),
+                ElevatorAngleNext.INSTANCE.toAngle(1550, 1),
                 nextLift.INSTANCE.toHeight(2300,2)
                 ),
                 intakeAngle.Up(),
                 new Delay(0.5),
                 nextLift.INSTANCE.toHeight(0,0),
-                ElevatorAngleNext.INSTANCE.toAngle(0),
+                ElevatorAngleNext.INSTANCE.toAngle(0, 1),
                 new FollowPath(grabPickup1),
                 nextLift.INSTANCE.toHeight(2300,2)
                 );
@@ -100,11 +100,12 @@ public class Gamily extends PedroOpMode {
 
     public Command testing(){
         return new SequentialGroup(
-                nextIntakeClaw.INSTANCE.open(),
+                nextIntakeClaw.INSTANCE.out(2),
         new FollowPath(park)
 
         );
     }
+
 
 
 @Override
